@@ -43,6 +43,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+//            ->add('roles', TextType::class, [
+//                'label' => 'Role(s)',
+//                'required' => false,
+//            ]); // roles field is optional
         ;
     }
 

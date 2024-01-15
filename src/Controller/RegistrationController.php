@@ -34,6 +34,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
+//            // Process the roles manually
+//            $roles = explode(',', $form->get('roles')->getData());
+//            $user->setRoles($roles);
+
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email

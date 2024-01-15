@@ -1,0 +1,15 @@
+{# templates/dashboard/user.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>Welcome, {{ username }} (User)!</h2>
+
+        <p>This is the user dashboard.</p>
+
+        <p><a href="{{ path('app_logout') }}">Logout</a></p>
+    </div>
+{% endblock %}
