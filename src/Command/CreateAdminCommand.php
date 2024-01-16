@@ -9,14 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateAdminCommand extends Command
 {
     private EntityManagerInterface $entityManager;
-    private UserPasswordEncoderInterface $passwordEncoder;
+    private UserPasswordHasherInterface $passwordEncoder;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordEncoder)
     {
         parent::__construct();
 
@@ -36,7 +36,7 @@ class CreateAdminCommand extends Command
     {
         $admin = new User();
         $admin->setUsername('admin');
-        $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'admin_password'));
+        $admin->setPassword($this->passwordEncoder->hashPassword($admin, 'admin'));
         $admin->setEmail('admin@example.com');
         $admin->setRoles(['ROLE_ADMIN']);
 

@@ -21,7 +21,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255), unique=true
      */
     private ?string $username;
 
@@ -57,6 +57,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return string the hashed password for this user
+     */
     public function getPassword(): ?string
     {
         return $this->password;
