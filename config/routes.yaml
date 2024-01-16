@@ -1,15 +1,3 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-
-admin_dashboard:
-  path: /admin
-  controller: App\Controller\DashboardController::admin
-
-user_dashboard:
-  path: /user
-  controller: App\Controller\DashboardController::user
-
-guest_dashboard:
-  path: /guest
-  controller: App\Controller\DashboardController::guest
