@@ -1,41 +1,49 @@
 <?php
 
+// src/Command/CreateAdminCommand.php
+
 namespace App\Command;
 
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CreateAdminCommand extends Command
 {
-    protected static $defaultName = 'CreateAdminCommand';
-    protected static $defaultDescription = 'Add a short description for your command';
+    private EntityManagerInterface $entityManager;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
-    protected function configure(): void
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        parent::__construct();
+
+        $this->entityManager = $entityManager;
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
+    protected function configure()
     {
         $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->setName('app:create-admin')
+            ->setDescription('Creates an admin user.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        $admin = new User();
+        $admin->setUsername('admin');
+        $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'admin_password'));
+        $admin->setEmail('admin@example.com');
+        $admin->setRoles(['ROLE_ADMIN']);
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
+        $this->entityManager->persist($admin);
+        $this->entityManager->flush();
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
-
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $output->writeln('Admin user created successfully.');
 
         return Command::SUCCESS;
     }
