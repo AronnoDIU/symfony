@@ -6,8 +6,45 @@
   <component name="ChangeListManager">
     <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/StockController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/StockController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/error.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/error.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/location/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/location/_delete_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/location/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/location/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/location/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/location/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/location/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/location/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/location/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/location/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/location/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/location/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/_delete_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/_delete_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/security/login.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/security/login.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/stock/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stock/_delete_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/stock/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stock/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/stock/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stock/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/stock/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stock/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/stock/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stock/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/stock/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stock/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/unit/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/unit/_delete_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/unit/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/unit/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/unit/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/unit/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/unit/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/unit/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/unit/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/unit/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/unit/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/unit/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/show.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +125,7 @@
       <updated>1705378952401</updated>
       <workItem from="1705378953519" duration="23900000" />
       <workItem from="1705459004283" duration="15285000" />
-      <workItem from="1705478714623" duration="11052000" />
+      <workItem from="1705478714623" duration="12425000" />
     </task>
     <servers />
   </component>

@@ -23,4 +23,6 @@
     <a href="{{ path('app_location_edit', {'id': location.id}) }}">edit</a>
 
     {{ include('location/_delete_form.html.twig') }}
+    {# Add link to redirect to the home page #}
+    <a href="{{ path('admin') }}">Go to Admin Home</a>
 {% endblock %}

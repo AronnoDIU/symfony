@@ -7,11 +7,11 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for location in locations %}
@@ -32,4 +32,7 @@
     </table>
 
     <a href="{{ path('app_location_new') }}">Create new</a>
+
+    {# Add link to redirect to the home page #}
+    <a href="{{ path('admin') }}">Go to Admin Home</a>
 {% endblock %}
