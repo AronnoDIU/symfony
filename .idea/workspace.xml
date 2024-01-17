@@ -4,24 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/Admin/ProductController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/Admin/UnitController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/ProductType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/UnitType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/product/_delete_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/product/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/product/edit.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/product/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/product/new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/product/show.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/unit/_delete_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/unit/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/unit/edit.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/unit/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/unit/new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/unit/show.html.twig" afterDir="false" />
-    </list>
+    <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,7 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1705378952401</updated>
       <workItem from="1705378953519" duration="23900000" />
-      <workItem from="1705459004283" duration="12224000" />
+      <workItem from="1705459004283" duration="12592000" />
     </task>
     <servers />
   </component>
