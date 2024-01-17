@@ -19,8 +19,9 @@ class Unit
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="unit")
      */
-    private $name;
+    private ?string $name;
 
     public function getId(): ?int
     {

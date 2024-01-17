@@ -15,22 +15,23 @@ class Product
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
+
+    /**
+     * @ORM\Column(type="float", precision=10, scale=2)
+     */
+    private ?float $price;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Unit")
      */
-    private $price;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $unit;
+    private ?string $unit;
 
     public function getId(): ?int
     {
@@ -49,12 +50,12 @@ class Product
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function setPrice(string $price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
 
