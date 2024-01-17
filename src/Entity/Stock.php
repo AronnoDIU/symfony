@@ -18,18 +18,18 @@ class Stock
     private ?int $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Location")
+     * @ORM\ManyToMany(targetEntity=Location::class)
      */
     private Location $location;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product")
+     * @ORM\ManyToMany(targetEntity=Product::class)
      */
     private Product $product;
 
     /**
      * @ORM\Column(type="float")
-     * @ORM\ManyToMany(targetEntity="App\Entity\Purchase")
+     * @ORM\ManyToMany(targetEntity=Purchase::class)
      */
     private float $quantity;
 
@@ -38,7 +38,7 @@ class Stock
         return $this->id;
     }
 
-    public function getLocation(): Location
+    public function getLocation(): ?Location
     {
         return $this->location;
     }
@@ -73,9 +73,4 @@ class Stock
 
         return $this;
     }
-
-//    public function __toString()
-//    {
-//        return $this->quantity;
-//    }
 }
