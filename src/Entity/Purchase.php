@@ -27,6 +27,11 @@ class Purchase
      */
     private Stock $quantity;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Location")
+     */
+    private Location $location;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Purchase
     public function setQuantity(Stock $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(Location $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

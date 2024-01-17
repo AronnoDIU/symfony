@@ -14,6 +14,7 @@ class PurchaseType extends AbstractType
         $builder
             ->add('product')
             ->add('quantity')
+            ->add('location')
         ;
     }
 

@@ -5,22 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/Admin/LocationController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/Admin/PurchaseController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/LocationType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/PurchaseType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/location/_delete_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/location/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/location/edit.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/location/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/location/new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/location/show.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/purchase/_delete_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/purchase/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/purchase/edit.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/purchase/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/purchase/new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/purchase/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Location.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Location.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Purchase.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Purchase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Stock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stock.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/PurchaseType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PurchaseType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/_delete_form.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/_form.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/edit.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/index.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/new.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/show.html.twig" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +94,7 @@
       <updated>1705378952401</updated>
       <workItem from="1705378953519" duration="23900000" />
       <workItem from="1705459004283" duration="15285000" />
-      <workItem from="1705478714623" duration="1382000" />
+      <workItem from="1705478714623" duration="3230000" />
     </task>
     <servers />
   </component>

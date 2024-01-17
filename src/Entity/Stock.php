@@ -29,6 +29,7 @@ class Stock
 
     /**
      * @ORM\Column(type="float")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Purchase")
      */
     private float $quantity;
 
@@ -72,4 +73,9 @@ class Stock
 
         return $this;
     }
+
+//    public function __toString()
+//    {
+//        return $this->quantity;
+//    }
 }
