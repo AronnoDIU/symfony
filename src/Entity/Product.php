@@ -28,10 +28,9 @@ class Product
     private ?float $price;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit")
      */
-    private ?string $unit;
+    private Unit $unit;
 
     public function getId(): ?int
     {
@@ -62,12 +61,12 @@ class Product
         return $this;
     }
 
-    public function getUnit(): ?string
+    public function getUnit(): ?Unit
     {
         return $this->unit;
     }
 
-    public function setUnit(string $unit): self
+    public function setUnit(Unit $unit): self
     {
         $this->unit = $unit;
 
