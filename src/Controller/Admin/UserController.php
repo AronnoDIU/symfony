@@ -34,20 +34,26 @@ class UserController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+//        $user = new User();
+        $adminUser = new User();
+        $adminUser->setRoles(['ROLE_ADMIN', 'ROLE_USER']);
+
+        $regularUser = new User();
+        $regularUser->setRoles(['ROLE_USER']);
+
+        $form = $this->createForm(UserType::class, $adminUser);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
+            $entityManager->persist($adminUser);
             $entityManager->flush();
 
             return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/new.html.twig', [
-            'user' => $user,
+            'user' => $adminUser,
             'form' => $form->createView(),
         ]);
     }
@@ -81,7 +87,7 @@ class UserController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
@@ -96,10 +102,25 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
+        // Check if the user has the ROLE_ADMIN role
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('user/show.html.twig', [
+                'user' => $user,
+                'roles' => $user->getRoles(),]);
+        }
+
+        // Check if the user has the ROLE_USER role
+        if ($this->isGranted('ROLE_USER')) {
+            return $this->render('user/show.html.twig', [
+                'user' => $user,
+                'roles' => $user->getRoles(),]);
+        }
+
+        // If the user does not have any of the roles, return an error message
+        return $this->render('error.html.twig', [
+            'message' => 'You do not have permission to access this page.',
         ]);
     }
 

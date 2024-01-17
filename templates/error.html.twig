@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ status_code }} {{ status_text }}
+
+    <p>{{ exception.message }}</p>
+
+    {% if debug %}
+        <pre>{{ exception.getTraceAsString }}</pre>
+    {% endif %}
+
+{% endblock %}
+
+{% block title %}
+
+    {{ status_code }} {{ status_text }}
+
+{% endblock %}
+
