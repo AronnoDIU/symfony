@@ -19,7 +19,6 @@ class Location
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @ORM\ManyToOne(targetEntity=Stock::class, inversedBy="locations")
      */
     private ?string $name;
 

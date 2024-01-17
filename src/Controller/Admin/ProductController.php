@@ -20,6 +20,7 @@ class ProductController extends AbstractController
      */
     public function index(ProductRepository $productRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
         ]);

@@ -30,7 +30,7 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit")
      */
-    private Unit $unit;
+    private ?Unit $unit;
 
     public function getId(): ?int
     {
@@ -63,7 +63,7 @@ class Product
 
     public function getUnit(): ?Unit
     {
-        return $this->unit;
+        return $this->unit ?? null;
     }
 
     public function setUnit(Unit $unit): self

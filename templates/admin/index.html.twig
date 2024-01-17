@@ -1,7 +1,41 @@
+{# templates/admin/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Admin Dashboard{% endblock %}
 
 {% block body %}
- Admin area
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('user_index') }}">Show User Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_purchase_index') }}">Show Purchase</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_location_index') }}">Add Location</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_product_index') }}">Show Product Details</a>
+                    </li>
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link" href="{{ path('app_stock_index') }}">Add Stock</a>#}
+{#                    </li>#}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_unit_index') }}">Add Product Unit</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        {# Add the content of your admin dashboard here #}
+    </div>
 {% endblock %}

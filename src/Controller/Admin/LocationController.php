@@ -20,6 +20,7 @@ class LocationController extends AbstractController
      */
     public function index(LocationRepository $locationRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('location/index.html.twig', [
             'locations' => $locationRepository->findAll(),
         ]);

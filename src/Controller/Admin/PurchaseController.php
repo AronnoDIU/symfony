@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Purchase;
 use App\Form\PurchaseType;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/purchase")
+ * @Route("admin/purchase")
  */
 class PurchaseController extends AbstractController
 {
@@ -20,6 +20,7 @@ class PurchaseController extends AbstractController
      */
     public function index(PurchaseRepository $purchaseRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('purchase/index.html.twig', [
             'purchases' => $purchaseRepository->findAll(),
         ]);
@@ -81,7 +82,7 @@ class PurchaseController extends AbstractController
      */
     public function delete(Request $request, Purchase $purchase, PurchaseRepository $purchaseRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$purchase->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $purchase->getId(), $request->request->get('_token'))) {
             $purchaseRepository->remove($purchase, true);
         }
 

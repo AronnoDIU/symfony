@@ -20,6 +20,7 @@ class UnitController extends AbstractController
      */
     public function index(UnitRepository $unitRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('unit/index.html.twig', [
             'units' => $unitRepository->findAll(),
         ]);

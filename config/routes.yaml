@@ -4,7 +4,7 @@
 
 admin:
     path: /admin
-    controller: App\Controller\AdminController::index
+    controller: App\Controller\DefaultController::admin
 
 #security:
 #    path: /security
