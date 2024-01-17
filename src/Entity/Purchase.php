@@ -15,41 +15,41 @@ class Purchase
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product")
      */
-    private $product;
+    private Product $product;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Stock")
      */
-    private $quantity;
+    private Stock $quantity;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProduct(): ?string
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProduct(string $product): self
+    public function setProduct(Product $product): self
     {
         $this->product = $product;
 
         return $this;
     }
 
-    public function getQuantity(): ?string
+    public function getQuantity(): ?Stock
     {
         return $this->quantity;
     }
 
-    public function setQuantity(string $quantity): self
+    public function setQuantity(Stock $quantity): self
     {
         $this->quantity = $quantity;
 

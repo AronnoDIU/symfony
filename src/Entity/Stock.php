@@ -15,58 +15,58 @@ class Stock
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Location")
      */
-    private $location;
+    private Location $location;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product")
      */
-    private $product;
+    private Product $product;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="float")
      */
-    private $quantity;
+    private float $quantity;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLocation(): ?string
+    public function getLocation(): Location
     {
         return $this->location;
     }
 
-    public function setLocation(string $location): self
+    public function setLocation(Location $location): self
     {
         $this->location = $location;
 
         return $this;
     }
 
-    public function getProduct(): ?string
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProduct(string $product): self
+    public function setProduct(Product $product): self
     {
         $this->product = $product;
 
         return $this;
     }
 
-    public function getQuantity(): ?string
+    public function getQuantity(): ?float
     {
         return $this->quantity;
     }
 
-    public function setQuantity(string $quantity): self
+    public function setQuantity(float $quantity): self
     {
         $this->quantity = $quantity;
 
