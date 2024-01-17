@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Stock;
 use App\Form\StockType;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/stock")
+ * @Route("admin/stock")
  */
 class StockController extends AbstractController
 {
@@ -20,6 +20,7 @@ class StockController extends AbstractController
      */
     public function index(StockRepository $stockRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('stock/index.html.twig', [
             'stocks' => $stockRepository->findAll(),
         ]);
@@ -81,7 +82,7 @@ class StockController extends AbstractController
      */
     public function delete(Request $request, Stock $stock, StockRepository $stockRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$stock->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $stock->getId(), $request->request->get('_token'))) {
             $stockRepository->remove($stock, true);
         }
 
