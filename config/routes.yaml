@@ -6,8 +6,36 @@ admin:
     path: /admin
     controller: App\Controller\AdminController::index
 
+#security:
+#    path: /security
+#    controller: App\Controller\SecurityController::index
+
+#register:
+#    path: /register
+#    controller: App\Controller\SecurityController::register
+
+user:
+    path: /admin/user
+    controller: App\Controller\UserController::index
+
+showUser:
+    path: /admin/user
+    controller: App\Controller\UserController::show
+
+addUser:
+    path: /admin/user/add
+    controller: App\Controller\UserController::add
+
+editUser:
+    path: /admin/user/edit/{id}
+    controller: App\Controller\UserController::edit
+
+deleteUser:
+    path: /admin/user/delete/{id}
+    controller: App\Controller\UserController::delete
+
 login:
-    path: /login
+    path: /admin/login
     controller: App\Controller\SecurityController::login
 
 logout:

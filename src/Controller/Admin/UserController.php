@@ -89,4 +89,45 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
+
+
+    /**
+     * @Route("/admin/users/{id}", name="user_show", methods={"GET"})
+     */
+    public function show(User $user): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+//    /**
+//     * @Route("/admin/users/{id}", name="user_show", methods={"GET"})
+//     */
+//    public function show(User $user): Response
+//    {
+//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+//
+//        return $this->render('user/show.html.twig', [
+//            'user' => $user,
+//            'roles' => $user->getRoles(),
+//            'is_admin' => $this->isGranted('ROLE_ADMIN'),
+//            'is_user' => $this->isGranted('ROLE_USER'),
+//            'is_super_admin' => $this->isGranted('ROLE_SUPER_ADMIN'),
+//            'is_guest' => $this->isGranted('ROLE_GUEST'),
+//            'is_anonymous' => $this->isGranted('ROLE_ANONYMOUS'),
+//            'is_authenticated' => $this->isGranted('IS_AUTHENTICATED'),
+//            'is_authenticated_remember_me' => $this->isGranted('IS_AUTHENTICATED_REMEMBER_ME'),
+//            'is_authenticated_anonymous' => $this->isGranted('IS_AUTHENTICATED_ANONYMOUS'),
+//            'is_authenticated_simple' => $this->isGranted('IS_AUTHENTICATED_SIMPLE'),
+//            'is_granted' => $this->isGranted('ROLE_ADMIN'),
+//            'is_granted2' => $this->isGranted('ROLE_USER'),
+//        ]);
+//
+//        //return $this->render('user/show.html.twig', ['user' => $user]);
+//
+//        //return new Response($user->getRoles());
+//    }
 }

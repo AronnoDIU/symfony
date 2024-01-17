@@ -1,5 +1,7 @@
 <?php
 
+// src/Controller/AdminController.php
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -9,11 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin", name="app_admin")
+     * @Route("/admin/users", name="app_admin")
      */
     public function index(): Response
     {
-        return $this->render('admin/index.html.twig', [
+        return $this->render('user/index.html.twig', [
             'controller_name' => 'AdminController',
         ]);
     }
