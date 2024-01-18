@@ -1,5 +1,7 @@
 <?php
 
+// src/Controller/Admin/ProductController.php
+
 namespace App\Controller\Admin;
 
 use App\Entity\Product;

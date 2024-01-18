@@ -1,9 +1,12 @@
 <?php
 
+// src/Entity/Stock.php
+
 namespace App\Entity;
 
 use App\Repository\StockRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=StockRepository::class)
@@ -19,17 +22,21 @@ class Stock
 
     /**
      * @ORM\ManyToMany(targetEntity=Location::class)
+     * @Assert\NotNull(message="Please select a location.")
      */
     private Location $location;
 
     /**
      * @ORM\ManyToMany(targetEntity=Product::class)
+     * @Assert\NotNull(message="Please select a product.")
      */
     private Product $product;
 
     /**
      * @ORM\Column(type="float")
      * @ORM\ManyToMany(targetEntity=Purchase::class)
+     * @Assert\NotNull(message="Please provide a quantity.")
+     * @Assert\GreaterThan(value=0, message="The quantity must be greater than 0.")
      */
     private float $quantity;
 

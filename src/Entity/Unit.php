@@ -1,9 +1,12 @@
 <?php
 
+// src/Entity/Unit.php
+
 namespace App\Entity;
 
 use App\Repository\UnitRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UnitRepository::class)
@@ -19,6 +22,7 @@ class Unit
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Name cannot be blank.")
      */
     private ?string $name;
 

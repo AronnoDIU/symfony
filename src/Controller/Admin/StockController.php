@@ -1,5 +1,7 @@
 <?php
 
+// src/Controller/Admin/StockController.php
+
 namespace App\Controller\Admin;
 
 use App\Entity\Stock;

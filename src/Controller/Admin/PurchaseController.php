@@ -1,5 +1,7 @@
 <?php
 
+// src/Controller/Admin/PurchaseController.php
+
 namespace App\Controller\Admin;
 
 use App\Entity\Purchase;

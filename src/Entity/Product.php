@@ -1,9 +1,12 @@
 <?php
 
+// src/Entity/Product.php
+
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -19,16 +22,21 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The name cannot be blank.")
+     * @Assert\Length(max=255, maxMessage="The name cannot be longer than {{ limit }} characters.")
      */
     private ?string $name;
 
     /**
      * @ORM\Column(type="float", precision=10, scale=2)
+     * @Assert\NotNull(message="The price cannot be null.")
+     * @Assert\GreaterThan(value=0, message="The price must be greater than 0.")
      */
     private ?float $price;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit")
+     * @Assert\NotNull(message="Please select a unit.")
      */
     private ?Unit $unit;
 
@@ -51,7 +59,8 @@ class Product
 
     public function getPrice(): ?float
     {
-        return $this->price;
+        // Format the price, return null if price is null.
+        return $this->price !== null ? number_format($this->price, 2) : null;
     }
 
     public function setPrice(float $price): self

@@ -1,5 +1,7 @@
 <?php
 
+// src/Controller/LoginController.php
+
 namespace App\Controller\Admin;
 
 use LogicException;

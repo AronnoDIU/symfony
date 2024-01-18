@@ -1,9 +1,12 @@
 <?php
 
+// src/Entity/Purchase.php
+
 namespace App\Entity;
 
 use App\Repository\PurchaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PurchaseRepository::class)
@@ -19,16 +22,19 @@ class Purchase
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Product")
+     * @Assert\NotNull(message="Please select a product.")
      */
     private Product $product;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Stock")
+     * @Assert\NotNull(message="Please select a stock quantity.")
      */
     private Stock $quantity;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Location")
+     * @Assert\NotNull(message="Please select a location.")
      */
     private Location $location;
 
