@@ -23,8 +23,19 @@
             <th>Location</th>
             <td>{{ purchase.location }}</td>
         </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ purchase.status }}</td>
+        </tr>
         </tbody>
     </table>
+
+    {# Include the "Approve" button if the status is set to 'draft' #}
+    {% if purchase.status == 'draft' %}
+        <form method="get" action="{{ path('app_purchase_approve', {'id': purchase.id}) }}" style="display: inline;">
+            <button type="submit" class="btn btn-success">Approve</button>
+        </form>
+    {% endif %}
 
     <a href="{{ path('app_purchase_index') }}">back to list</a>
 

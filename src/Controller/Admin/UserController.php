@@ -6,15 +6,20 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\UserType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/admin")
+ * @Security("is_granted('ROLE_ADMIN')")
+ */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/admin/users", name="user_index")
+     * @Route("/users", name="user_index")
      */
     public function index(): Response
     {
@@ -28,7 +33,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/users/new", name="user_new", methods={"GET","POST"})
+     * @Route("/users/new", name="user_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -59,7 +64,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/users/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/users/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, User $user): Response
     {
@@ -81,7 +86,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/users/{id}", name="user_delete", methods={"DELETE"})
+     * @Route("/users/{id}", name="user_delete", methods={"DELETE"})
      */
     public function delete(Request $request, User $user): Response
     {
@@ -98,7 +103,7 @@ class UserController extends AbstractController
 
 
     /**
-     * @Route("/admin/users/{id}", name="user_show", methods={"GET"})
+     * @Route("/users/{id}", name="user_show", methods={"GET"})
      */
     public function show(User $user): Response
     {

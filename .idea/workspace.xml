@@ -6,9 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/Admin/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/DashboardController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/LocationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/LocationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/PurchaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/PurchaseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/StockController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/StockController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/UnitController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/UnitController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Purchase.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Purchase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/PurchaseType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PurchaseType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/PurchaseRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PurchaseRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/_delete_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/purchase/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchase/show.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +113,7 @@
       <workItem from="1705825090826" duration="53000" />
       <workItem from="1705828349552" duration="814000" />
       <workItem from="1705898032898" duration="19000" />
-      <workItem from="1705898076642" duration="1798000" />
+      <workItem from="1705898076642" duration="7443000" />
     </task>
     <servers />
   </component>

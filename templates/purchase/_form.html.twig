@@ -1,6 +1,13 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+    {# Include the "Approve" button if the purchase is in draft status #}
+    {% if form.vars.value.status == 'draft' %}
+        <button type="submit" name="form[approve]" class="btn btn-primary">Approve</button>
+    {% endif %}
+
+<button type="submit" class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
 {# Add link to redirect to the home page #}
 <a href="{{ path('admin') }}">Go to Admin Home</a>
-{{ form_end(form) }}

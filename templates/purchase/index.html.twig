@@ -6,24 +6,30 @@
     <h1>Purchase index</h1>
 
     <table class="table">
+        {# src/Resources/views/purchase/index.html.twig #}
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for purchase in purchases %}
             <tr>
                 <td>{{ purchase.id }}</td>
+                <td>{{ purchase.status }}</td>
                 <td>
                     <a href="{{ path('app_purchase_show', {'id': purchase.id}) }}">show</a>
                     <a href="{{ path('app_purchase_edit', {'id': purchase.id}) }}">edit</a>
+                    {% if purchase.status == 'draft' %}
+                        <a href="{{ path('app_purchase_approve', {'id': purchase.id}) }}">approve</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="2">no records found</td>
+                <td colspan="3">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

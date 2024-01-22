@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Purchase;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,26 +17,33 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PurchaseRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private EntityManagerInterface $entityManager;
+
+    /*Instead of using getEntityManager(), you can type-hint the $entityManager
+    argument in the constructor with the EntityManagerInterface interface.
+    Symfony's dependency injection will automatically inject the correct instance*/
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Purchase::class);
+        $this->entityManager = $entityManager;
     }
 
     public function add(Purchase $entity, bool $flush = false): void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->entityManager->persist($entity);
 
         if ($flush) {
-            $this->getEntityManager()->flush();
+            $this->entityManager->flush();
         }
     }
 
     public function remove(Purchase $entity, bool $flush = false): void
     {
-        $this->getEntityManager()->remove($entity);
+        $this->entityManager->remove($entity);
 
         if ($flush) {
-            $this->getEntityManager()->flush();
+            $this->entityManager->flush();
         }
     }
 
