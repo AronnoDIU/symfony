@@ -38,6 +38,11 @@ class Purchase
      */
     private Location $location;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +80,18 @@ class Purchase
     public function setLocation(Location $location): self
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

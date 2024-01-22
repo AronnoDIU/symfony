@@ -43,7 +43,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "doctrine/annotations": "^2.0",
+        "doctrine/annotations": "*",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "5.4.*",
         "symfony/css-selector": "5.4.*",
