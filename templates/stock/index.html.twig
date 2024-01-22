@@ -7,16 +7,20 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Quantity</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Product</th>
+            <th>Location</th>
+            <th>Quantity</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for stock in stocks %}
             <tr>
                 <td>{{ stock.id }}</td>
+                <td>{{ stock.product }}</td>
+                <td>{{ stock.location }}</td>
                 <td>{{ stock.quantity }}</td>
                 <td>
                     <a href="{{ path('app_stock_show', {'id': stock.id}) }}">show</a>

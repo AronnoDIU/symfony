@@ -82,8 +82,13 @@ class Stock
         return $this;
     }
 
-    public function __toString()
+//    public function __toString()
+//    {
+//        return $this->getProduct()->getName() . ' (' . $this->getQuantity() . ')';
+//    }
+
+    public function __toString(): string
     {
-        return $this->getProduct()->getName() . ' (' . $this->getQuantity() . ')';
+        return $this->getQuantity() . ')';
     }
 }

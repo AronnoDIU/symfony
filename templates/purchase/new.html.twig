@@ -9,9 +9,9 @@
 
     {# Include the "Approve" button if the status is set to 'draft' #}
     {% if form.vars.value.status == 'draft' %}
-        <form method="get" action="{{ path('app_purchase_approve', {'id': form.vars.value.id}) }}" style="display: inline;">
-            <button type="submit" class="btn btn-success">Approve</button>
-        </form>
+{#        <form method="get" action="{{ path('app_purchase_approve', {'id': form.vars.value.id}) }}" style="display: inline;">#}
+{#            <button type="submit" class="btn btn-success">Approve</button>#}
+{#        </form>#}
     {% endif %}
 
     <a href="{{ path('app_purchase_index') }}">back to list</a>

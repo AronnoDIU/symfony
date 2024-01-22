@@ -10,6 +10,9 @@
         <thead>
         <tr>
             <th>Id</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Location</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -18,6 +21,9 @@
         {% for purchase in purchases %}
             <tr>
                 <td>{{ purchase.id }}</td>
+                <td>{{ purchase.product }}</td>
+                <td>{{ purchase.quantity }}</td>
+                <td>{{ purchase.location }}</td>
                 <td>{{ purchase.status }}</td>
                 <td>
                     <a href="{{ path('app_purchase_show', {'id': purchase.id}) }}">show</a>
