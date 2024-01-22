@@ -21,19 +21,22 @@ class Purchase
     private ?int $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product")
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="Please select a product.")
      */
     private Product $product;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Stock")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Stock")
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="Please select a stock quantity.")
      */
     private Stock $quantity;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Location")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location")
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="Please select a location.")
      */
     private Location $location;

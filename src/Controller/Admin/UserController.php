@@ -6,7 +6,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\UserType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin")
- * @Security("is_granted('ROLE_ADMIN')")
  */
 class UserController extends AbstractController
 {
@@ -107,7 +105,7 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         // Check if the user has the ROLE_ADMIN role
         if ($this->isGranted('ROLE_ADMIN')) {

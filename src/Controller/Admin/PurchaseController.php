@@ -7,7 +7,7 @@ namespace App\Controller\Admin;
 use App\Entity\Purchase;
 use App\Form\PurchaseType;
 use App\Repository\PurchaseRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Service\StockUpdaterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("admin/purchase")
- * @Security("is_granted('ROLE_ADMIN')")
  */
 class PurchaseController extends AbstractController
 {
+    private StockUpdaterService $stockUpdaterService;
+
+    public function __construct(StockUpdaterService $stockUpdaterService)
+    {
+        $this->stockUpdaterService = $stockUpdaterService;
+    }
+
     /**
      * @Route("/", name="app_purchase_index", methods={"GET"})
      */
@@ -61,12 +67,19 @@ class PurchaseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/approve", name="app_purchase_approve", methods={"GET"})
+     * @Route("/{id}/approve", name="app_purchase_approve", methods={"POST"})
      */
-    public function approve(Purchase $purchase, PurchaseRepository $purchaseRepository): Response
+    public function approve(Request $request, Purchase $purchase, PurchaseRepository $purchaseRepository): Response
     {
-        $purchase->setStatus('approved');
-        $purchaseRepository->add($purchase, true);
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        if ($this->isCsrfTokenValid('approve' . $purchase->getId(), $request->request->get('_token'))) {
+            $purchase->setStatus('approved');
+            $purchaseRepository->add($purchase, true);
+
+            // Update stock after approval
+            $this->stockUpdaterService->updateStockFromPurchase($purchase);
+        }
 
         return $this->redirectToRoute('app_purchase_index', [], Response::HTTP_SEE_OTHER);
     }

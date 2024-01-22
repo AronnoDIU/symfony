@@ -21,24 +21,25 @@ class Stock
     private ?int $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Location::class)
+     * @ORM\ManyToOne(targetEntity=Location::class)
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="Please select a location.")
      */
     private Location $location;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Product::class)
+     * @ORM\ManyToOne(targetEntity=Product::class)
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="Please select a product.")
      */
     private Product $product;
 
     /**
-     * @ORM\Column(type="float")
-     * @ORM\ManyToMany(targetEntity=Purchase::class)
+     * @ORM\Column(type="integer")
      * @Assert\NotNull(message="Please provide a quantity.")
      * @Assert\GreaterThan(value=0, message="The quantity must be greater than 0.")
      */
-    private float $quantity;
+    private int $quantity;
 
     public function getId(): ?int
     {
@@ -79,5 +80,10 @@ class Stock
         $this->quantity = $quantity;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getProduct()->getName() . ' (' . $this->getQuantity() . ')';
     }
 }
