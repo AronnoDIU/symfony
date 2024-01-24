@@ -1,7 +1,5 @@
 <?php
 
-// src/Controller/Admin/PurchaseController.php
-
 namespace App\Controller\Admin;
 
 use App\Entity\Purchase;
@@ -46,6 +44,9 @@ class PurchaseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $purchaseRepository->add($purchase, true);
+
+            // Update stock after purchase creation
+            $this->stockUpdaterService->updateStockFromPurchase($purchase);
 
             return $this->redirectToRoute('app_purchase_index', [], Response::HTTP_SEE_OTHER);
         }

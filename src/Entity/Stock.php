@@ -34,12 +34,52 @@ class Stock
      */
     private Product $product;
 
+//    /**
+//     * @ORM\Column(type="integer")
+//     * @Assert\NotNull(message="Please provide a quantity.")
+//     * @Assert\GreaterThan(value=0, message="The quantity must be greater than 0.")
+//     */
+//    private int $quantity;
+
+//    /**
+//     * @ORM\ManyToOne(targetEntity="src\Entity\Purchase")
+//     * @ORM\JoinColumn (nullable=false)
+//     * @Assert\NotNull(message="Please provide a quantity.")
+//     */
+//    private Purchase $quantity;
+
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotNull(message="Please provide a quantity.")
-     * @Assert\GreaterThan(value=0, message="The quantity must be greater than 0.")
+     * @Assert\GreaterThanOrEqual(value=0, message="The quantity must be greater than or equal to 0.")
      */
     private int $quantity;
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function increaseQuantity(int $quantity): self
+    {
+        $this->quantity += $quantity;
+
+        return $this;
+    }
+
+    public function decreaseQuantity(int $quantity): self
+    {
+        // Ensure the quantity does not go below zero
+        $this->quantity = max(0, $this->quantity - $quantity);
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -70,25 +110,40 @@ class Stock
         return $this;
     }
 
-    public function getQuantity(): ?float
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(float $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
+//    public function getQuantity(): ?Purchase
+//    {
+//        return $this->quantity;
+//    }
+//
+//    public function setQuantity(Purchase $quantity): self
+//    {
+//        $this->quantity = $quantity;
+//
+//        return $this;
+//    }
+//
+//    public function increaseQuantity(Purchase $quantity): self
+//    {
+//        $this->quantity += $quantity;
+//
+//        return $this;
+//    }
+//
+//    public function decreaseQuantity(Purchase $quantity): self
+//    {
+//        // Ensure the quantity does not go below zero
+//        $this->quantity = max(0, $this->quantity - $quantity);
+//
+//        return $this;
+//    }
 
 //    public function __toString()
 //    {
 //        return $this->getProduct()->getName() . ' (' . $this->getQuantity() . ')';
 //    }
 
-    public function __toString(): string
-    {
-        return $this->getQuantity() . ')';
-    }
+//    public function __toString(): string
+//    {
+//        return $this->getQuantity();
+//    }
 }

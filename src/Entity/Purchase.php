@@ -27,12 +27,19 @@ class Purchase
      */
     private Product $product;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Stock")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull(message="Please select a stock quantity.")
-     */
-    private Stock $quantity;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="App\Entity\Stock")
+//     * @ORM\JoinColumn(nullable=false)
+//     * @Assert\NotNull(message="Please select a stock quantity.")
+//     */
+//    private Stock $quantity;
+
+//    /**
+//     * @ORM\Column(type="integer")
+//     * @Assert\NotNull(message="Please provide a quantity.")
+//     * @Assert\GreaterThan(value=0, message="The quantity must be greater than 0.")
+//     */
+//    private int $quantity;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location")
@@ -45,7 +52,7 @@ class Purchase
      * @ORM\Column(type="string", length=255)
      * @Assert\Choice(choices={"Draft", "Approve"})
      */
-    private string $status = 'Draft';
+    private string $status;
 
     public function __construct()
     {
@@ -82,12 +89,31 @@ class Purchase
         return $this;
     }
 
-    public function getQuantity(): ?Stock
+//    public function getQuantity(): ?Stock
+//    {
+//        return $this->quantity;
+//    }
+//
+//    public function setQuantity(Stock $quantity): self
+//    {
+//        $this->quantity = $quantity;
+//
+//        return $this;
+//    }
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotNull(message="Please provide a quantity.")
+     * @Assert\GreaterThan(value=0, message="The quantity must be greater than 0.")
+     */
+    private int $quantity;
+
+    public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    public function setQuantity(Stock $quantity): self
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
 
@@ -104,5 +130,10 @@ class Purchase
         $this->location = $location;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getQuantity();
     }
 }

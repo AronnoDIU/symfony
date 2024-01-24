@@ -20,22 +20,21 @@ class StockUpdaterService
     public function updateStockFromPurchase(Purchase $purchase): void
     {
         $quantity = $purchase->getQuantity();
-        $location = $purchase->getLocation();
         $product = $purchase->getProduct();
 
         // Find or create Stock entity
         $stockRepository = $this->entityManager->getRepository(Stock::class);
-        $stock = $stockRepository->findOneBy(['location' => $location, 'product' => $product]);
+        $stock = $stockRepository->findOneBy(['product' => $product]);
 
         if (!$stock) {
             $stock = new Stock();
-            $stock->setLocation($location);
             $stock->setProduct($product);
         }
 
-        // Update stock quantity
-        $currentQuantity = $stock->getQuantity() ?? 0;
-        $stock->setQuantity($currentQuantity + $quantity);
+        // Update stock quantity based on purchase status
+        if ($purchase->getStatus() === 'approved') {
+            $stock->increaseQuantity($quantity);
+        }
 
         // Persist and flush changes
         $this->entityManager->persist($stock);
