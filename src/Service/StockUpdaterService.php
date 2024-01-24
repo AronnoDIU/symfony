@@ -28,18 +28,15 @@ class StockUpdaterService
         $stock = $stockRepository->findOneBy(['product' => $product, 'location' => $location]);
 
         if (!$stock) {
-            $stock = new Stock();
-            $stock->setProduct($product);
-            $stock->setLocation($location);
-        }
+            $stock = (new Stock())
+                ->setProduct($product)
+                ->setLocation($location)
+                ->setQuantity(0);
 
-        // Update stock quantity based on purchase status
-        if ($purchase->getStatus() === 'approved') {
-            $stock->increaseQuantity($quantity);
+            $this->entityManager->persist($stock);
+        } else {
+            $stock->setQuantity($stock->getQuantity() + $quantity);
         }
-
-        // Persist and flush changes
-        $this->entityManager->persist($stock);
         $this->entityManager->flush();
     }
 }
