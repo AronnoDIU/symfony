@@ -3,18 +3,9 @@
 {% block title %}New Purchase{% endblock %}
 
 {% block body %}
-    <h1>Create new Purchase</h1>
+    <h1>New Purchase</h1>
 
-    {{ include('purchase/_form.html.twig') }}
+    {{ include('purchase/_form.html.twig', {'form': form}) }}
 
-    {# Include the "Approve" button if the status is set to 'draft' #}
-    {% if form.vars.value.status == 'draft' %}
-{#        <form method="get" action="{{ path('app_purchase_approve', {'id': form.vars.value.id}) }}" style="display: inline;">#}
-{#            <button type="submit" class="btn btn-success">Approve</button>#}
-{#        </form>#}
-    {% endif %}
-
-    <a href="{{ path('app_purchase_index') }}">back to list</a>
-    {# Add link to redirect to the home page #}
-    <a href="{{ path('admin') }}">Go to Admin Home</a>
+    <a href="{{ path('app_purchase_index') }}">Back to Index</a>
 {% endblock %}

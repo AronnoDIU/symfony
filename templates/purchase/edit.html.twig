@@ -5,18 +5,7 @@
 {% block body %}
     <h1>Edit Purchase</h1>
 
-    {{ include('purchase/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('purchase/_form.html.twig', {'form': form}) }}
 
-    {# Include the "Approve" button if the purchase is in draft status #}
-    {% if purchase.status == 'draft' %}
-        <form method="get" action="{{ path('app_purchase_approve', {'id': purchase.id}) }}" style="display: inline;">
-            <button type="submit" class="btn btn-success">Approve</button>
-        </form>
-    {% endif %}
-
-    <a href="{{ path('app_purchase_index') }}">back to list</a>
-
-    {{ include('purchase/_delete_form.html.twig') }}
-    {# Add link to redirect to the home page #}
-    <a href="{{ path('admin') }}">Go to Admin Home</a>
+    <a href="{{ path('app_purchase_index') }}">Back to Index</a>
 {% endblock %}

@@ -21,14 +21,16 @@ class StockUpdaterService
     {
         $quantity = $purchase->getQuantity();
         $product = $purchase->getProduct();
+        $location = $purchase->getLocation();
 
         // Find or create Stock entity
         $stockRepository = $this->entityManager->getRepository(Stock::class);
-        $stock = $stockRepository->findOneBy(['product' => $product]);
+        $stock = $stockRepository->findOneBy(['product' => $product, 'location' => $location]);
 
         if (!$stock) {
             $stock = new Stock();
             $stock->setProduct($product);
+            $stock->setLocation($location);
         }
 
         // Update stock quantity based on purchase status

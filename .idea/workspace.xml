@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/PurchaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/PurchaseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Purchase.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Purchase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Stock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stock.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/PurchaseRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PurchaseRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/StockUpdaterService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/StockUpdaterService.php" afterDir="false" />
-    </list>
+    <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,7 +98,7 @@
       <workItem from="1705898076642" duration="19662000" />
       <workItem from="1705977648270" duration="4872000" />
       <workItem from="1706065438502" duration="69000" />
-      <workItem from="1706065534570" duration="1248000" />
+      <workItem from="1706065534570" duration="1568000" />
     </task>
     <servers />
   </component>

@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\StockRepository;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -34,52 +35,11 @@ class Stock
      */
     private Product $product;
 
-//    /**
-//     * @ORM\Column(type="integer")
-//     * @Assert\NotNull(message="Please provide a quantity.")
-//     * @Assert\GreaterThan(value=0, message="The quantity must be greater than 0.")
-//     */
-//    private int $quantity;
-
-//    /**
-//     * @ORM\ManyToOne(targetEntity="src\Entity\Purchase")
-//     * @ORM\JoinColumn (nullable=false)
-//     * @Assert\NotNull(message="Please provide a quantity.")
-//     */
-//    private Purchase $quantity;
-
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\GreaterThanOrEqual(value=0, message="The quantity must be greater than or equal to 0.")
+     * @ORM\ManyToOne(targetEntity=Purchase::class)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private int $quantity;
-
-    public function getQuantity(): int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    public function increaseQuantity(int $quantity): self
-    {
-        $this->quantity += $quantity;
-
-        return $this;
-    }
-
-    public function decreaseQuantity(int $quantity): self
-    {
-        // Ensure the quantity does not go below zero
-        $this->quantity = max(0, $this->quantity - $quantity);
-
-        return $this;
-    }
+    private ?Purchase $quantity = null;
 
     public function getId(): ?int
     {
@@ -110,40 +70,29 @@ class Stock
         return $this;
     }
 
-//    public function getQuantity(): ?Purchase
-//    {
-//        return $this->quantity;
-//    }
-//
-//    public function setQuantity(Purchase $quantity): self
-//    {
-//        $this->quantity = $quantity;
-//
-//        return $this;
-//    }
-//
-//    public function increaseQuantity(Purchase $quantity): self
-//    {
-//        $this->quantity += $quantity;
-//
-//        return $this;
-//    }
-//
-//    public function decreaseQuantity(Purchase $quantity): self
-//    {
-//        // Ensure the quantity does not go below zero
-//        $this->quantity = max(0, $this->quantity - $quantity);
-//
-//        return $this;
-//    }
+    public function getQuantity(): ?Purchase
+    {
+        return $this->quantity;
+    }
 
-//    public function __toString()
-//    {
-//        return $this->getProduct()->getName() . ' (' . $this->getQuantity() . ')';
-//    }
+    public function setQuantity(?Purchase $quantity): self
+    {
+        $this->quantity = $quantity;
 
-//    public function __toString(): string
-//    {
-//        return $this->getQuantity();
-//    }
+        return $this;
+    }
+
+    public function increaseQuantity(int $amount): self
+    {
+        if ($this->quantity === null) {
+            throw new LogicException('Cannot increase quantity on a stock with no associated purchase.');
+        }
+
+        $currentQuantity = $this->quantity->getQuantity();
+
+        // Increase the quantity by the specified amount
+        $this->quantity->setQuantity($currentQuantity + $amount);
+
+        return $this;
+    }
 }

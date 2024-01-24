@@ -1,5 +1,7 @@
 <?php
 
+// src/Controller/Admin/PurchaseController.php
+
 namespace App\Controller\Admin;
 
 use App\Entity\Purchase;
@@ -43,10 +45,15 @@ class PurchaseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $purchaseRepository->add($purchase, true);
+            // Set status to 'Draft' explicitly (if not already set in the form)
+            $purchase->setStatus('Draft');
 
             // Update stock after purchase creation
             $this->stockUpdaterService->updateStockFromPurchase($purchase);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($purchase);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_purchase_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -76,10 +83,12 @@ class PurchaseController extends AbstractController
 
         if ($this->isCsrfTokenValid('approve' . $purchase->getId(), $request->request->get('_token'))) {
             $purchase->setStatus('approved');
-            $purchaseRepository->add($purchase, true);
 
             // Update stock after approval
             $this->stockUpdaterService->updateStockFromPurchase($purchase);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_purchase_index', [], Response::HTTP_SEE_OTHER);
@@ -88,13 +97,17 @@ class PurchaseController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_purchase_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Purchase $purchase, PurchaseRepository $purchaseRepository): Response
+    public function edit(Request $request, Purchase $purchase): Response
     {
         $form = $this->createForm(PurchaseType::class, $purchase);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $purchaseRepository->add($purchase, true);
+            // Update stock after purchase edit
+            $this->stockUpdaterService->updateStockFromPurchase($purchase);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_purchase_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -108,10 +121,16 @@ class PurchaseController extends AbstractController
     /**
      * @Route("/{id}", name="app_purchase_delete", methods={"POST"})
      */
-    public function delete(Request $request, Purchase $purchase, PurchaseRepository $purchaseRepository): Response
+    public function delete(Request $request, Purchase $purchase): Response
     {
         if ($this->isCsrfTokenValid('delete' . $purchase->getId(), $request->request->get('_token'))) {
-            $purchaseRepository->remove($purchase, true);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($purchase);
+
+            // Update stock after purchase deletion
+            $this->stockUpdaterService->updateStockFromPurchase($purchase);
+
+            $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_purchase_index', [], Response::HTTP_SEE_OTHER);

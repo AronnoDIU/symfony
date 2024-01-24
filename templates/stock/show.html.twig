@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Stock{% endblock %}
+{% block title %}Show Stock{% endblock %}
 
 {% block body %}
-    <h1>Stock</h1>
+    <h1>Show Stock</h1>
 
     <table class="table">
         <tbody>
@@ -26,11 +26,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_stock_index') }}">back to list</a>
-
-    <a href="{{ path('app_stock_edit', {'id': stock.id}) }}">edit</a>
-
-    {{ include('stock/_delete_form.html.twig') }}
-    {# Add link to redirect to the home page #}
-    <a href="{{ path('admin') }}">Go to Admin Home</a>
+    <a href="{{ path('app_stock_index') }}">Back to Index</a>
 {% endblock %}

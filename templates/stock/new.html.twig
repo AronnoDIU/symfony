@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Stock{% endblock %}
+{% block title %}New Purchase{% endblock %}
 
 {% block body %}
-    <h1>Create new Stock</h1>
+    <h1>New Purchase</h1>
 
-    {{ include('stock/_form.html.twig') }}
+    {{ include('purchase/_form.html.twig', {'form': form}) }}
 
-    <a href="{{ path('app_stock_index') }}">back to list</a>
-    {# Add link to redirect to the home page #}
-    <a href="{{ path('admin') }}">Go to Admin Home</a>
+    <a href="{{ path('app_purchase_index') }}">Back to Index</a>
 {% endblock %}

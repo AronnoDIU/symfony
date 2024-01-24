@@ -1,5 +1,7 @@
 <?php
 
+// src/Repository/PurchaseRepository.php
+
 namespace App\Repository;
 
 use App\Entity\Purchase;
@@ -29,6 +31,21 @@ class PurchaseRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * Find purchases by status.
+     *
+     * @param string $status
+     * @return Purchase[]
+     */
+    public function findByStatus(string $status): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.status = :status')
+            ->setParameter('status', $status)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

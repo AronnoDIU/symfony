@@ -1,9 +1,12 @@
 <?php
 
+// src/Repository/StockRepository.php
+
 namespace App\Repository;
 
 use App\Entity\Stock;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +40,25 @@ class StockRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * Find stocks by location and product.
+     *
+     * @param int $locationId
+     * @param int $productId
+     * @return Stock|null
+     * @throws NonUniqueResultException
+     */
+    public function findByLocationAndProduct(int $locationId, int $productId): ?Stock
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.location = :locationId')
+            ->andWhere('s.product = :productId')
+            ->setParameter('locationId', $locationId)
+            ->setParameter('productId', $productId)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 //    /**

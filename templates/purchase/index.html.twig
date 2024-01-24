@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Purchase index{% endblock %}
+{% block title %}Purchase Index{% endblock %}
 
 {% block body %}
-    <h1>Purchase index</h1>
+    <h1>Purchase Index</h1>
 
     <table class="table">
-        {# src/Resources/views/purchase/index.html.twig #}
         <thead>
         <tr>
             <th>Id</th>
@@ -26,22 +25,29 @@
                 <td>{{ purchase.location }}</td>
                 <td>{{ purchase.status }}</td>
                 <td>
-                    <a href="{{ path('app_purchase_show', {'id': purchase.id}) }}">show</a>
-                    <a href="{{ path('app_purchase_edit', {'id': purchase.id}) }}">edit</a>
-                    {% if purchase.status == 'draft' %}
-                        <a href="{{ path('app_purchase_approve', {'id': purchase.id}) }}">approve</a>
+                    <a href="{{ path('app_purchase_show', {'id': purchase.id}) }}">Show</a>
+                    {% if purchase.status == 'Draft' %}
+                        <a href="{{ path('app_purchase_edit', {'id': purchase.id}) }}">Edit</a>
+                        <form method="post" action="{{ path('app_purchase_delete', {'id': purchase.id}) }}" style="display: inline;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ purchase.id) }}">
+                            <button type="submit" class="btn-link" onclick="return confirm('Are you sure you want to delete this item?')">Delete</button>
+                        </form>
+                        <form method="post" action="{{ path('app_purchase_approve', {'id': purchase.id}) }}" style="display: inline;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ purchase.id) }}">
+                            <button type="submit" class="btn-link" onclick="return confirm('Are you sure you want to approve this purchase?')">Approve</button>
+                        </form>
                     {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="6">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_purchase_new') }}">Create new</a>
+    <a href="{{ path('app_purchase_new') }}">Create New</a>
     {# Add link to redirect to the home page #}
     <a href="{{ path('admin') }}">Go to Admin Home</a>
 {% endblock %}
