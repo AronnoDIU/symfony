@@ -109,7 +109,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+        // TODO: Implement @method void eraseCredentials()
     }
 
     public function __call($name, $arguments)
@@ -117,8 +117,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // TODO: Implement @method string getUserIdentifier()
     }
 
-    public function hasRole(string $string)
+    public function hasRole(string $string): bool
     {
-        // TODO: Implement hasRole() method.
+        return in_array($string, $this->roles);
     }
 }
