@@ -7,8 +7,11 @@ namespace App\Controller\Admin;
 use App\Entity\Purchase;
 use App\Form\PurchaseType;
 use App\Repository\PurchaseRepository;
-use App\Service\StockUpdaterService;
+use App\Event\PurchaseEvent;
+
+//use App\Service\StockUpdaterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,11 +21,18 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PurchaseController extends AbstractController
 {
-    private StockUpdaterService $stockUpdaterService;
+//    private StockUpdaterService $stockUpdaterService;
 
-    public function __construct(StockUpdaterService $stockUpdaterService)
+//    public function __construct(StockUpdaterService $stockUpdaterService)
+//    {
+//        $this->stockUpdaterService = $stockUpdaterService;
+//    }
+
+    private EventDispatcherInterface $eventDispatcher;
+
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        $this->stockUpdaterService = $stockUpdaterService;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -30,6 +40,7 @@ class PurchaseController extends AbstractController
      */
     public function index(PurchaseRepository $purchaseRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('purchase/index.html.twig', [
             'purchases' => $purchaseRepository->findAll(),
         ]);
@@ -49,11 +60,15 @@ class PurchaseController extends AbstractController
             $purchase->setStatus('Draft');
 
             // Update stock after purchase creation
-            $this->stockUpdaterService->updateStockFromPurchase($purchase);
+//            $this->stockUpdaterService->updateStockFromPurchase($purchase);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($purchase);
             $entityManager->flush();
+
+            // Dispatch the PurchaseEvent after the purchase is created
+            $purchaseEvent = new PurchaseEvent($purchase);
+            $this->eventDispatcher->dispatch($purchaseEvent, PurchaseEvent::NAME);
 
             return $this->redirectToRoute('app_purchase_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -85,10 +100,14 @@ class PurchaseController extends AbstractController
             $purchase->setStatus('approved');
 
             // Update stock after approval
-            $this->stockUpdaterService->updateStockFromPurchase($purchase);
+//            $this->stockUpdaterService->updateStockFromPurchase($purchase);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+
+            // Dispatch the PurchaseEvent after the purchase is approved
+            $purchaseEvent = new PurchaseEvent($purchase);
+            $this->eventDispatcher->dispatch($purchaseEvent, PurchaseEvent::NAME);
         }
 
         return $this->redirectToRoute('app_purchase_index', [], Response::HTTP_SEE_OTHER);
@@ -104,10 +123,14 @@ class PurchaseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Update stock after purchase edit
-            $this->stockUpdaterService->updateStockFromPurchase($purchase);
+//            $this->stockUpdaterService->updateStockFromPurchase($purchase);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+
+            // Dispatch the PurchaseEvent after the purchase is edited
+            $purchaseEvent = new PurchaseEvent($purchase);
+            $this->eventDispatcher->dispatch($purchaseEvent, PurchaseEvent::NAME);
 
             return $this->redirectToRoute('app_purchase_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -127,8 +150,14 @@ class PurchaseController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($purchase);
 
+            $entityManager->flush();
+
+            // Dispatch the PurchaseEvent after the purchase is deleted
+            $purchaseEvent = new PurchaseEvent($purchase);
+            $this->eventDispatcher->dispatch($purchaseEvent, PurchaseEvent::NAME);
+
             // Update stock after purchase deletion
-            $this->stockUpdaterService->updateStockFromPurchase($purchase);
+//            $this->stockUpdaterService->updateStockFromPurchase($purchase);
 
             $entityManager->flush();
         }
