@@ -16,13 +16,13 @@ class PurchaseType extends AbstractType
             ->add('product')
             ->add('quantity')
             ->add('location')
-            ->add('status', ChoiceType::class, [
-                'choices' => [
-                    'Draft' => 'Draft',
-                    'Approve' => 'Approve',
-                ],
-                'label' => 'Status',
-            ])
+//            ->add('status', ChoiceType::class, [
+//                'choices' => [
+//                    'Draft' => 'Draft',
+//                    'Approve' => 'Approve',
+//                ],
+//                'label' => 'Status',
+//            ])
         ;
     }
 

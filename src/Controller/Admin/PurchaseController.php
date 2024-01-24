@@ -38,7 +38,7 @@ class PurchaseController extends AbstractController
     /**
      * @Route("/new", name="app_purchase_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, PurchaseRepository $purchaseRepository): Response
+    public function new(Request $request): Response
     {
         $purchase = new Purchase();
         $form = $this->createForm(PurchaseType::class, $purchase);

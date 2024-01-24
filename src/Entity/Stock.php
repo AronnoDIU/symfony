@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Repository\StockRepository;
 use Doctrine\ORM\Mapping as ORM;
-use LogicException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -36,10 +35,9 @@ class Stock
     private Product $product;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Purchase::class)
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\Column(type="decimal", precision=12, scale=2)
      */
-    private ?Purchase $quantity = null;
+    private float $quantity = 0;
 
     public function getId(): ?int
     {
@@ -70,28 +68,14 @@ class Stock
         return $this;
     }
 
-    public function getQuantity(): ?Purchase
+    public function getQuantity(): ?float
     {
         return $this->quantity;
     }
 
-    public function setQuantity(?Purchase $quantity): self
+    public function setQuantity(?float $quantity): self
     {
         $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    public function increaseQuantity(int $amount): self
-    {
-        if ($this->quantity === null) {
-            throw new LogicException('Cannot increase quantity on a stock with no associated purchase.');
-        }
-
-        $currentQuantity = $this->quantity->getQuantity();
-
-        // Increase the quantity by the specified amount
-        $this->quantity->setQuantity($currentQuantity + $amount);
 
         return $this;
     }
