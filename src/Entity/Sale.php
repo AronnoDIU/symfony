@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SaleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SaleRepository::class)
@@ -15,70 +16,82 @@ class Sale
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="Please select a product.")
+     */
+    private Product $product;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="Please select a location.")
+     */
+    private Location $location;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Please enter a quantity.")
+     */
+    private int $quantity;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Choice(choices={"Draft", "Approve", "Pending", "Complete"})
      */
-    private $product;
+    private string $status;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $location;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $quantity;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $status;
+    public function __construct()
+    {
+        // Ensure the status property is initialized
+        $this->status = 'Draft';
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProduct(): ?string
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProduct(string $product): self
+    public function setProduct(Product $product): self
     {
         $this->product = $product;
 
         return $this;
     }
 
-    public function getLocation(): ?string
+    public function getLocation(): ?Location
     {
         return $this->location;
     }
 
-    public function setLocation(string $location): self
+    public function setLocation(Location $location): self
     {
         $this->location = $location;
 
         return $this;
     }
 
-    public function getQuantity(): ?string
+    public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    public function setQuantity(string $quantity): self
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
 
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }
