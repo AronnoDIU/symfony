@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Entity/Sale.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Sale.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Admin/SaleController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/SaleType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sale/_delete_form.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sale/_form.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sale/edit.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sale/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sale/new.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sale/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +112,7 @@
       <workItem from="1706069658927" duration="21207000" />
       <workItem from="1706150179358" duration="2418000" />
       <workItem from="1706511335876" duration="7000" />
-      <workItem from="1706511357044" duration="5862000" />
+      <workItem from="1706511357044" duration="7082000" />
     </task>
     <servers />
   </component>
