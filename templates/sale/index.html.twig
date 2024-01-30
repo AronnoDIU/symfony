@@ -7,31 +7,53 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Quantity</th>
-                <th>Status</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Product</th>
+            <th>Location</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for sale in sales %}
             <tr>
                 <td>{{ sale.id }}</td>
+                <td>{{ sale.product }}</td>
+                <td>{{ sale.location }}</td>
                 <td>{{ sale.quantity }}</td>
                 <td>{{ sale.status }}</td>
                 <td>
-                    <a href="{{ path('app_sale_show', {'id': sale.id}) }}">show</a>
-                    <a href="{{ path('app_sale_edit', {'id': sale.id}) }}">edit</a>
+                    <a href="{{ path('app_sale_show', {'id': sale.id}) }}">Show</a>
+                    {% if sale.status == 'Draft' %}
+                        <a href="{{ path('app_sale_edit', {'id': sale.id}) }}">Edit</a>
+                        <form method="post" action="{{ path('app_sale_delete', {'id': sale.id}) }}"
+                              style="display: inline;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sale.id) }}">
+                            <button type="submit" class="btn-link"
+                                    onclick="return confirm('Are you sure you want to delete this item?')">Delete
+                            </button>
+                        </form>
+                        <form method="post" action="{{ path('app_sale_approve', {'id': sale.id}) }}"
+                              style="display: inline;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ sale.id) }}">
+                            <button type="submit" class="btn-link"
+                                    onclick="return confirm('Are you sure you want to approve this purchase?')">Approve
+                            </button>
+                        </form>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="6">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_sale_new') }}">Create new</a>
+    <a href="{{ path('app_sale_new') }}">Create New</a>
+    {# Add link to redirect to the home page #}
+    <a href="{{ path('admin') }}">Go to Admin Home</a>
 {% endblock %}

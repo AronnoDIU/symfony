@@ -53,9 +53,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
   access_control:
-    # used for api
     - { path: ^/api/login, roles: PUBLIC_ACCESS }
     - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/public, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api,       roles: ROLE_USER }
     - { path: ^/api,       roles: ROLE_ADMIN }
 

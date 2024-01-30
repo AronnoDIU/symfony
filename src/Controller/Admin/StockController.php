@@ -4,6 +4,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Sale;
 use App\Entity\Stock;
 use App\Repository\StockRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,8 +31,13 @@ class StockController extends AbstractController
      */
     public function show(Stock $stock): Response
     {
+        $approvedSales = $stock->getSales()->filter(function (Sale $sale) {
+            return $sale->getStatus() === 'Approve';
+        });
+
         return $this->render('stock/show.html.twig', [
             'stock' => $stock,
+            'approvedSales' => $approvedSales,
         ]);
     }
 }

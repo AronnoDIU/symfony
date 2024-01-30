@@ -39,6 +39,21 @@ class SaleRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Find sales by status.
+     *
+     * @param string $status
+     * @return Sale[]
+     */
+    public function findByStatus(string $status): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.status = :status')
+            ->setParameter('status', $status)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Sale[] Returns an array of Sale objects
 //     */

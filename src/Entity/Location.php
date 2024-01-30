@@ -27,6 +27,11 @@ class Location
      */
     private ?string $name;
 
+    public function __construct()
+    {
+        $this->name = ''; // Initialize the name property
+    }
+
     public function getId(): ?int
     {
         return $this->id;

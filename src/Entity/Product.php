@@ -27,12 +27,17 @@ class Product
      */
     private ?string $name;
 
+    public function __construct()
+    {
+        $this->name = ''; // Initialize the name property
+    }
+
     /**
      * @ORM\Column(type="float", precision=10, scale=2)
      * @Assert\NotNull(message="The price cannot be null.")
      * @Assert\GreaterThan(value=0, message="The price must be greater than 0.")
      */
-    private ?float $price;
+    private ?float $price = 0.0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit")

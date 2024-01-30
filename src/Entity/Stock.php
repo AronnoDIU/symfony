@@ -7,6 +7,8 @@ namespace App\Entity;
 use App\Repository\StockRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=StockRepository::class)
@@ -76,6 +78,66 @@ class Stock
     public function setQuantity(?float $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity=Sale::class, mappedBy="stock")
+     */
+    private Collection $sales;
+
+    public function __construct()
+    {
+        $this->sales = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Sale[]
+     */
+    public function getSales(): Collection
+    {
+        return $this->sales;
+    }
+
+    public function addSale(Sale $sale): self
+    {
+        if (!$this->sales->contains($sale)) {
+            $this->sales[] = $sale;
+            $sale->setStock($this);
+            $this->updateQuantity();
+        }
+
+        return $this;
+    }
+
+    public function removeSale(Sale $sale): self
+    {
+        if ($this->sales->removeElement($sale)) {
+            // set the owning side to null (unless already changed)
+            if ($sale->getStock() === $this) {
+                $sale->setStock(null);
+            }
+            $this->updateQuantity();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Update the quantity based on associated sales
+     */
+    public function updateQuantity(): self
+    {
+        $quantity = 0;
+
+        foreach ($this->sales as $sale) {
+            if ($sale->getStatus() === 'Approve') {
+                $quantity += $sale->getQuantity();
+            }
+        }
+
+        $this->setQuantity($quantity);
 
         return $this;
     }

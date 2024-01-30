@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\SaleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass=SaleRepository::class)
  */
 class Sale
@@ -22,6 +25,7 @@ class Sale
      * @ORM\ManyToOne(targetEntity="App\Entity\Product")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="Please select a product.")
+     * @ORM\JoinColumn(onDelete="CASCADE") // You can add this line to cascade delete if needed
      */
     private Product $product;
 
@@ -29,18 +33,21 @@ class Sale
      * @ORM\ManyToOne(targetEntity="App\Entity\Location")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="Please select a location.")
+     * @ORM\JoinColumn(onDelete="CASCADE") // You can add this line to cascade delete if needed
      */
     private Location $location;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Please enter a quantity.")
+     * @group ("api")
      */
     private int $quantity;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Choice(choices={"Draft", "Approve", "Pending", "Complete"})
+     * @Assert\Choice(choices={"Draft", "Approve"})
+     * @groups("api")
      */
     private string $status;
 
@@ -101,5 +108,22 @@ class Sale
         $this->status = $status;
 
         return $this;
+    }
+
+    public function setStock(Stock $param)
+    {
+        $this->product = $param->getProduct();
+        $this->location = $param->getLocation();
+        $this->quantity = $param->getQuantity();
+    }
+
+    public function getStock(): Sale
+    {
+        return $this;
+    }
+
+    public function addSale(Sale $sale)
+    {
+        $this->sales[] = $sale;
     }
 }

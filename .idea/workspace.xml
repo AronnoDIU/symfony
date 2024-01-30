@@ -5,15 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/Admin/SaleController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/SaleType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/sale/_delete_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/sale/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/sale/edit.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/sale/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/sale/new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/sale/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/api_platform.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/routes/api_platform.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Api/SaleApiController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Event/SaleEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EventSubscriber/SaleEventSubscriber.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sale_api/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/lexik_jwt_authentication.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/lexik_jwt_authentication.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes/annotations.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes/annotations.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/SaleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/SaleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/StockController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/StockController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Location.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Location.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Sale.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Sale.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Stock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stock.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/SaleType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/SaleType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/SaleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/SaleRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/sale/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sale/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +127,8 @@
       <workItem from="1706069658927" duration="21207000" />
       <workItem from="1706150179358" duration="2418000" />
       <workItem from="1706511335876" duration="7000" />
-      <workItem from="1706511357044" duration="7082000" />
+      <workItem from="1706511357044" duration="13283000" />
+      <workItem from="1706581473770" duration="20047000" />
     </task>
     <servers />
   </component>

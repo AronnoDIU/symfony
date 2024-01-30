@@ -6,6 +6,11 @@
 api_login_check:
     path: /api/login_check
 
+# Import routes from SaleApiController
+#sale_api:
+#    resource: '@App/Controller/SaleApiController.php'
+#    type: annotation
+
 admin:
     path: /admin/dashboard
     controller: App\Controller\DashboardController::index

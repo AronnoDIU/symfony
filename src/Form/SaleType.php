@@ -12,10 +12,10 @@ class SaleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
-            ->add('status')
+//            ->add('status')
             ->add('product')
             ->add('location')
+            ->add('quantity')
         ;
     }
 
