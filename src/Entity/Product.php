@@ -6,8 +6,8 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -18,7 +18,8 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"product:read", "product:write", "sale:read", "sale:write"})
+     * @JMS\SerializedName("id")
+     * @JMS\Groups({"sale:read"})
      */
     private ?int $id;
 
@@ -26,25 +27,24 @@ class Product
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="The name cannot be blank.")
      * @Assert\Length(max=255, maxMessage="The name cannot be longer than {{ limit }} characters.")
-     * @Groups({"product:read", "product:write", "sale:read", "sale:write"})
+     * cascade={"persist", "remove"}
+     * @JMS\SerializedName("name")
+     * @JMS\Groups({"sale:read"})
      */
     private ?string $name;
-
-    public function __construct()
-    {
-        $this->name = ''; // Initialize the name property
-    }
 
     /**
      * @ORM\Column(type="float", precision=10, scale=2)
      * @Assert\NotNull(message="The price cannot be null.")
      * @Assert\GreaterThan(value=0, message="The price must be greater than 0.")
+     * @JMS\SerializedName("price")
      */
     private ?float $price = 0.0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit")
      * @Assert\NotNull(message="Please select a unit.")
+     * @JMS\SerializedName("unit")
      */
     private ?Unit $unit;
 
@@ -65,10 +65,18 @@ class Product
         return $this;
     }
 
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("priceFormatted")
+     */
+    public function getPriceFormatted(): ?string
+    {
+        return $this->getPrice() !== null ? number_format($this->getPrice(), 2) : null;
+    }
+
     public function getPrice(): ?float
     {
-        // Format the price, return null if price is null.
-        return $this->price !== null ? number_format($this->price, 2) : null;
+        return $this->price;
     }
 
     public function setPrice(float $price): self

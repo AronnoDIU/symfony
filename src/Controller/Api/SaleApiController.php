@@ -1,20 +1,21 @@
 <?php
 
-// src/Controller/SaleApiController.php
+// src/Controller/Api/SaleApiController.php
 
 namespace App\Controller\Api;
 
 use App\Entity\Sale;
 use App\Repository\SaleRepository;
 use App\Repository\StockRepository;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\DeserializationContext;
 use Doctrine\ORM\EntityManagerInterface;
+use JMS\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -37,31 +38,42 @@ class SaleApiController extends AbstractController
 
     /**
      * @Route("/list", methods={"GET"})
-     * @throws ExceptionInterface
      */
     public function list(SaleRepository $saleRepository): JsonResponse
     {
         $sales = $saleRepository->findAll();
-        $data = $this->serializer->normalize($sales, null, ['groups' => 'sale:read']);
 
-        return new JsonResponse($data, JsonResponse::HTTP_OK);
+        // Debugging: Output the state of related entities
+        foreach ($sales as $sale) {
+            dump($sale->getProduct(), $sale->getLocation());
+        }
+
+        // Create a SerializationContext
+        $context = SerializationContext::create()->setGroups(['sale:read']);
+
+        // Serialize using the context
+        $data = $this->serializer->serialize($sales, 'json', $context);
+
+        return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
     }
 
 
     /**
      * @Route("/show/{id}", methods={"GET"})
-     * @throws ExceptionInterface
      */
     public function show(Sale $sale): JsonResponse
     {
-        $data = $this->serializer->normalize($sale, null, ['groups' => 'sale:read']);
+        // Create a SerializationContext
+        $context = SerializationContext::create()->setGroups(['sale:read']);
 
-        return new JsonResponse($data, JsonResponse::HTTP_OK);
+        // Serialize using the context
+        $data = $this->serializer->serialize($sale, 'json', $context);
+
+        return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
     }
 
     /**
      * @Route("/create", methods={"POST"})
-     * @throws ExceptionInterface
      */
     public function create(Request $request): JsonResponse
     {
@@ -87,22 +99,26 @@ class SaleApiController extends AbstractController
         $sale->getStock()->addSale($sale);
         $this->entityManager->flush();
 
-        // Normalize and return the response
-        $responseData = $this->serializer->normalize($sale, null, ['groups' => 'sale:write']);
-        return new JsonResponse($responseData, JsonResponse::HTTP_CREATED);
-    }
+        // Create a SerializationContext
+        $context = SerializationContext::create()->setGroups(['sale:read']);
 
+        // Serialize using the context
+        $responseData = $this->serializer->serialize($sale, 'json', $context);
+
+        return new JsonResponse($responseData, JsonResponse::HTTP_CREATED, [], true);
+    }
 
     /**
      * @Route("/update/{id}", methods={"PUT"})
-     * @throws ExceptionInterface
      */
     public function update(Sale $sale, Request $request): JsonResponse
     {
-//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $data = json_decode($request->getContent(), true);
 
-        $this->serializer->deserialize($request->getContent(), Sale::class, 'json', ['object_to_populate' => $sale]);
+        // Create a DeserializationContext
+        $context = DeserializationContext::create()->setGroups(['sale:write']);
+
+        $this->serializer->deserialize($request->getContent(), Sale::class, 'json', $context, ['object_to_populate' => $sale]);
 
         $errors = $this->validator->validate($sale);
         if (count($errors) > 0) {
@@ -111,9 +127,13 @@ class SaleApiController extends AbstractController
 
         $this->entityManager->flush();
 
-        $responseData = $this->serializer->normalize($sale, null, ['groups' => 'sale:write']);
+        // Create a SerializationContext
+        $context = SerializationContext::create()->setGroups(['sale:read']);
 
-        return new JsonResponse($responseData, JsonResponse::HTTP_OK);
+        // Serialize using the context
+        $responseData = $this->serializer->serialize($sale, 'json', $context);
+
+        return new JsonResponse($responseData, JsonResponse::HTTP_OK, [], true);
     }
 
     /**
@@ -121,7 +141,6 @@ class SaleApiController extends AbstractController
      */
     public function delete(Sale $sale): JsonResponse
     {
-//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $this->entityManager->remove($sale);
         $this->entityManager->flush();
 
@@ -149,5 +168,4 @@ class SaleApiController extends AbstractController
 
         return new JsonResponse(['message' => 'Sale approved and added to Stock.'], JsonResponse::HTTP_OK);
     }
-
 }

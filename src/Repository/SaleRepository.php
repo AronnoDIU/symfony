@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method Sale|null find($id, $lockMode = null, $lockVersion = null)
  * @method Sale|null findOneBy(array $criteria, array $orderBy = null)
- * @method Sale[]    findAll()
+// * @method Sale[]    findAll()
  * @method Sale[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SaleRepository extends ServiceEntityRepository
@@ -50,6 +50,16 @@ class SaleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->andWhere('p.status = :status')
             ->setParameter('status', $status)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.product', 'p')
+            ->addSelect('p')
+            ->leftJoin('s.location', 'l')
+            ->addSelect('l')
             ->getQuery()
             ->getResult();
     }
