@@ -125,7 +125,7 @@ class Stock
     }
 
     /**
-     * Update the quantity based on associated sales
+     * Update the quantity based on associated sales.
      */
     public function updateQuantity(): self
     {

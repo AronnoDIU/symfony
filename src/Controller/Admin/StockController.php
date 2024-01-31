@@ -31,13 +31,13 @@ class StockController extends AbstractController
      */
     public function show(Stock $stock): Response
     {
-        $approvedSales = $stock->getSales()->filter(function (Sale $sale) {
-            return $sale->getStatus() === 'Approve';
-        });
+//        $approvedSales = $stock->getSales()->filter(function (Sale $sale) {
+//            return $sale->getStatus() === 'Approve';
+//        });
 
         return $this->render('stock/show.html.twig', [
             'stock' => $stock,
-            'approvedSales' => $approvedSales,
+//            'approvedSales' => $approvedSales,
         ]);
     }
 }

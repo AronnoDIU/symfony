@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -17,6 +18,7 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"product:read", "product:write", "sale:read", "sale:write"})
      */
     private ?int $id;
 
@@ -24,6 +26,7 @@ class Product
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="The name cannot be blank.")
      * @Assert\Length(max=255, maxMessage="The name cannot be longer than {{ limit }} characters.")
+     * @Groups({"product:read", "product:write", "sale:read", "sale:write"})
      */
     private ?string $name;
 

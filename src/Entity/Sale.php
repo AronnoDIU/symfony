@@ -9,7 +9,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource
+ * @ApiResource(
+ *     normalizationContext={"groups"={"sale:read", "product:read", "location:read"}},
+ *     denormalizationContext={"groups"={"sale:write", "product:write", "location:write"}}
+ * )
  * @ORM\Entity(repositoryClass=SaleRepository::class)
  */
 class Sale
@@ -18,6 +21,7 @@ class Sale
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"sale:read", "sale:write"})
      */
     private ?int $id;
 
@@ -25,7 +29,8 @@ class Sale
      * @ORM\ManyToOne(targetEntity="App\Entity\Product")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="Please select a product.")
-     * @ORM\JoinColumn(onDelete="CASCADE") // You can add this line to cascade delete if needed
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     * @Groups({"sale:read", "sale:write"})
      */
     private Product $product;
 
@@ -33,21 +38,22 @@ class Sale
      * @ORM\ManyToOne(targetEntity="App\Entity\Location")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="Please select a location.")
-     * @ORM\JoinColumn(onDelete="CASCADE") // You can add this line to cascade delete if needed
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     * @Groups({"sale:read", "sale:write"})
      */
     private Location $location;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Please enter a quantity.")
-     * @group ("api")
+     * @Groups({"sale:read", "sale:write"})
      */
     private int $quantity;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Choice(choices={"Draft", "Approve"})
-     * @groups("api")
+     * @Groups({"sale:read", "sale:write"})
      */
     private string $status;
 
@@ -57,11 +63,17 @@ class Sale
         $this->status = 'Draft';
     }
 
+    /**
+     * @Groups ({"sale:read"})
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @Groups({"sale:read"})
+     */
     public function getProduct(): ?Product
     {
         return $this->product;
@@ -74,6 +86,9 @@ class Sale
         return $this;
     }
 
+    /**
+     * @Groups({"sale:read"})
+     */
     public function getLocation(): ?Location
     {
         return $this->location;
@@ -86,6 +101,9 @@ class Sale
         return $this;
     }
 
+    /**
+     * @Groups({"sale:read"})
+     */
     public function getQuantity(): ?int
     {
         return $this->quantity;
@@ -98,6 +116,9 @@ class Sale
         return $this;
     }
 
+    /**
+     * @Groups({"sale:read"})
+     */
     public function getStatus(): string
     {
         return $this->status;

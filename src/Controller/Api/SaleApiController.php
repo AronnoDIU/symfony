@@ -4,7 +4,6 @@
 
 namespace App\Controller\Api;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Sale;
 use App\Repository\SaleRepository;
 use App\Repository\StockRepository;
@@ -42,12 +41,12 @@ class SaleApiController extends AbstractController
      */
     public function list(SaleRepository $saleRepository): JsonResponse
     {
-//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $sales = $saleRepository->findAll();
-        $data = $this->serializer->normalize($sales, null, ['groups' => 'api']);
+        $data = $this->serializer->normalize($sales, null, ['groups' => 'sale:read']);
 
         return new JsonResponse($data, JsonResponse::HTTP_OK);
     }
+
 
     /**
      * @Route("/show/{id}", methods={"GET"})
@@ -55,8 +54,7 @@ class SaleApiController extends AbstractController
      */
     public function show(Sale $sale): JsonResponse
     {
-//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $data = $this->serializer->normalize($sale, null, ['groups' => 'api']);
+        $data = $this->serializer->normalize($sale, null, ['groups' => 'sale:read']);
 
         return new JsonResponse($data, JsonResponse::HTTP_OK);
     }
@@ -70,23 +68,30 @@ class SaleApiController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $sale = $this->serializer->deserialize($request->getContent(), Sale::class, 'json');
 
+        // Validate the sale
+        $errors = $this->validator->validate($sale);
+
+        if (count($errors) > 0) {
+            return new JsonResponse(['error' => (string)$errors], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
         // Persist associated entities explicitly
         $this->entityManager->persist($sale->getProduct());
         $this->entityManager->persist($sale->getLocation());
 
-        $errors = $this->validator->validate($sale);
-
-        if (count($errors) > 0) {
-            return new JsonResponse(['error' => (string) $errors], JsonResponse::HTTP_BAD_REQUEST);
-        }
-
+        // Persist the sale
         $this->entityManager->persist($sale);
         $this->entityManager->flush();
 
-        $responseData = $this->serializer->normalize($sale, null, ['groups' => 'api']);
+        // Update stock quantity after the sale has been persisted
+        $sale->getStock()->addSale($sale);
+        $this->entityManager->flush();
 
+        // Normalize and return the response
+        $responseData = $this->serializer->normalize($sale, null, ['groups' => 'sale:write']);
         return new JsonResponse($responseData, JsonResponse::HTTP_CREATED);
     }
+
 
     /**
      * @Route("/update/{id}", methods={"PUT"})
@@ -101,12 +106,12 @@ class SaleApiController extends AbstractController
 
         $errors = $this->validator->validate($sale);
         if (count($errors) > 0) {
-            return new JsonResponse(['error' => (string) $errors], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => (string)$errors], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $this->entityManager->flush();
 
-        $responseData = $this->serializer->normalize($sale, null, ['groups' => 'api']);
+        $responseData = $this->serializer->normalize($sale, null, ['groups' => 'sale:write']);
 
         return new JsonResponse($responseData, JsonResponse::HTTP_OK);
     }
@@ -129,18 +134,20 @@ class SaleApiController extends AbstractController
      */
     public function approve(Sale $sale): JsonResponse
     {
-//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         // Check if the sale is already approved
         if ($sale->getStatus() === 'Approve') {
             return new JsonResponse(['message' => 'Sale is already approved.'], JsonResponse::HTTP_OK);
         }
 
+        // Set the status to 'Approve'
         $sale->setStatus('Approve');
         $this->entityManager->flush();
 
-        // Add the sale to the associated stock and update quantity
+        // Update stock quantity after the sale status has been changed to 'Approve'
         $sale->getStock()->addSale($sale);
+        $this->entityManager->flush();
 
         return new JsonResponse(['message' => 'Sale approved and added to Stock.'], JsonResponse::HTTP_OK);
     }
+
 }
