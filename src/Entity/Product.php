@@ -37,14 +37,14 @@ class Product
      * @ORM\Column(type="float", precision=10, scale=2)
      * @Assert\NotNull(message="The price cannot be null.")
      * @Assert\GreaterThan(value=0, message="The price must be greater than 0.")
-     * @JMS\SerializedName("price")
+//     * @JMS\SerializedName("price")
      */
     private ?float $price = 0.0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit")
      * @Assert\NotNull(message="Please select a unit.")
-     * @JMS\SerializedName("unit")
+//     * @JMS\SerializedName("unit")
      */
     private ?Unit $unit;
 
@@ -65,14 +65,14 @@ class Product
         return $this;
     }
 
-    /**
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("priceFormatted")
-     */
-    public function getPriceFormatted(): ?string
-    {
-        return $this->getPrice() !== null ? number_format($this->getPrice(), 2) : null;
-    }
+//    /**
+//     * @JMS\VirtualProperty
+//     * @JMS\SerializedName("priceFormatted")
+//     */
+//    public function getPriceFormatted(): ?string
+//    {
+//        return $this->getPrice() !== null ? number_format($this->getPrice(), 2) : null;
+//    }
 
     public function getPrice(): ?float
     {
