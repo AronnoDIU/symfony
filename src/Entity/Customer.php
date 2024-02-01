@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,8 +24,6 @@ class Customer
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="The name cannot be blank.")
-     * @Assert\Length(max=255, maxMessage="The name cannot be longer than {{ limit }} characters.")
-     * cascade={"persist", "remove"}
      * @JMS\SerializedName("name")
      * @JMS\Groups({"sale:read"})
      */

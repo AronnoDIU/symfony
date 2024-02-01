@@ -23,12 +23,12 @@ class Sale
     private ?int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Groups({"sale:read"})
      * @JMS\MaxDepth(1)
      */
-    private Customer $Customer;
+    private Customer $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", cascade={"persist"})
@@ -86,12 +86,12 @@ class Sale
      */
     public function getCustomer(): ?Customer
     {
-        return $this->Customer;
+        return $this->customer;
     }
 
-    public function setCustomer(Customer $Customer): self
+    public function setCustomer(Customer $customer): self
     {
-        $this->Customer = $Customer;
+        $this->customer = $customer;
 
         return $this;
     }
