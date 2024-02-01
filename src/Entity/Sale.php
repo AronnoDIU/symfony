@@ -23,6 +23,14 @@ class Sale
     private ?int $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     * @JMS\Groups({"sale:read"})
+     * @JMS\MaxDepth(1)
+     */
+    private Customer $Customer;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Groups({"sale:read"})
@@ -69,6 +77,23 @@ class Sale
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("customer")
+     * @JMS\Groups({"sale:read"})
+     */
+    public function getCustomer(): ?Customer
+    {
+        return $this->Customer;
+    }
+
+    public function setCustomer(Customer $Customer): self
+    {
+        $this->Customer = $Customer;
+
+        return $this;
     }
 
     /**

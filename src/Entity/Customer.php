@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
@@ -14,11 +15,18 @@ class Customer
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @JMS\SerializedName("id")
+     * @JMS\Groups({"sale:read"})
      */
     private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The name cannot be blank.")
+     * @Assert\Length(max=255, maxMessage="The name cannot be longer than {{ limit }} characters.")
+     * cascade={"persist", "remove"}
+     * @JMS\SerializedName("name")
+     * @JMS\Groups({"sale:read"})
      */
     private ?string $name;
 
@@ -54,5 +62,10 @@ class Customer
         $this->enabled = $enabled;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }
