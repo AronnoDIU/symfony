@@ -34,6 +34,15 @@ class Customer
      */
     private ?bool $enabled;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The email cannot be blank.")
+     * @Assert\Email(message="Invalid email address.")
+     * @JMS\SerializedName("email")
+     * @JMS\Groups({"sale:read"})
+     */
+    private ?string $email;
+
     public function __construct()
     {
         $this->enabled = true;
@@ -68,8 +77,20 @@ class Customer
         return $this;
     }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     public function __toString()
     {
-        return $this->name;
+        return $this->name . ' (' . $this->email . ')';
     }
 }

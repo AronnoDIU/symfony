@@ -13,6 +13,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,13 +26,20 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class SaleApiController extends AbstractController
 {
+    private MailerInterface $mailer;
     private EntityManagerInterface $entityManager;
     private SerializerInterface $serializer;
     private ValidatorInterface $validator;
     private StockRepository $stockRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, SerializerInterface $serializer, ValidatorInterface $validator, StockRepository $stockRepository)
+    public function __construct(
+        MailerInterface        $mailer,
+        EntityManagerInterface $entityManager,
+        SerializerInterface    $serializer,
+        ValidatorInterface     $validator,
+        StockRepository        $stockRepository)
     {
+        $this->mailer = $mailer;
         $this->entityManager = $entityManager;
         $this->serializer = $serializer;
         $this->validator = $validator;
@@ -74,6 +84,7 @@ class SaleApiController extends AbstractController
 
     /**
      * @Route("/create", methods={"POST"})
+     * @throws TransportExceptionInterface
      */
     public function create(Request $request): JsonResponse
     {
@@ -98,6 +109,19 @@ class SaleApiController extends AbstractController
         // Update stock quantity after the sale has been persisted
         $sale->getStock()->addSale($sale);
         $this->entityManager->flush();
+
+        // Check if the sale price is greater than 1000
+        if ($sale->getPrice() > 1000.00) {
+            // Email the customer
+            $customerEmail = $sale->getCustomer()->getEmail();
+            $email = (new Email())
+                ->from('admin@dev.symfony.com')
+                ->to($customerEmail)
+                ->subject('Sale Notification')
+                ->html($this->renderView('emails/email.html.twig', ['customerName' => $sale->getCustomer()->getName()]));
+
+            $this->mailer->send($email);
+        }
 
         // Create a SerializationContext
         $context = SerializationContext::create()->setGroups(['sale:read']);

@@ -39,6 +39,15 @@ class Sale
     private Product $product;
 
     /**
+     * @ORM\Column(type="float", precision=10, scale=2)
+     * @Assert\GreaterThan(value=0, message="The price must be greater than 0.")
+     * @Assert\NotBlank(message="Please enter a price.")
+     * @JMS\SerializedName("price")
+     * @JMS\Groups({"sale:read"})
+     */
+    private ?float $price = 0.0;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Type("App\Entity\Location")
@@ -112,6 +121,30 @@ class Sale
 
         return $this;
     }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("price")
+     * @JMS\Groups({"sale:read"})
+     */
+    public function getPrice(): ?float
+    {
+        return $this->price !== null ? number_format($this->price, 2) : null;
+    }
+
+    /**
+     * Set the price of the sale.
+     *
+     * @param float|null $price
+     * @return $this
+     */
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
 
     /**
      * @JMS\VirtualProperty
