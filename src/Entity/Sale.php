@@ -23,7 +23,7 @@ class Sale
     private ?int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Customer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Groups({"sale:read"})
      * @JMS\MaxDepth(1)

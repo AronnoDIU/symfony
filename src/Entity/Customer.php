@@ -30,9 +30,14 @@ class Customer
     private ?string $name;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default" : true})
      */
     private ?bool $enabled;
+
+    public function __construct()
+    {
+        $this->enabled = true;
+    }
 
     public function getId(): ?int
     {

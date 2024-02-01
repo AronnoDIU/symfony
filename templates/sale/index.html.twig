@@ -9,6 +9,7 @@
         <thead>
         <tr>
             <th>Id</th>
+            <th>Customer</th>
             <th>Product</th>
             <th>Location</th>
             <th>Quantity</th>
@@ -20,6 +21,7 @@
         {% for sale in sales %}
             <tr>
                 <td>{{ sale.id }}</td>
+                <td>{{ sale.customer }}</td>
                 <td>{{ sale.product }}</td>
                 <td>{{ sale.location }}</td>
                 <td>{{ sale.quantity }}</td>
