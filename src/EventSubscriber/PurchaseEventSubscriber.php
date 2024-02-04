@@ -5,18 +5,22 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Purchase;
-use App\Event\PurchaseEvent;
 use App\Entity\Stock;
+use App\Event\PurchaseEvent;
+use App\Message\PurchaseApprovedMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class PurchaseEventSubscriber implements EventSubscriberInterface
 {
     private EntityManagerInterface $entityManager;
+    private MessageBusInterface $messageBus;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, MessageBusInterface $messageBus)
     {
         $this->entityManager = $entityManager;
+        $this->messageBus = $messageBus;
     }
 
     public static function getSubscribedEvents(): array
@@ -49,5 +53,8 @@ class PurchaseEventSubscriber implements EventSubscriberInterface
         }
 
         $this->entityManager->flush();
+
+        // Dispatch a message indicating that a purchase has been approved
+        $this->messageBus->dispatch(new PurchaseApprovedMessage($purchase));
     }
 }
