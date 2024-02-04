@@ -68,9 +68,14 @@ class Product
 //     * @JMS\SerializedName("price")
 //     * @JMS\Groups({"sale:read"})
 //     */
+//    public function getPrice(): ?float
+//    {
+//        return $this->price !== null ? number_format($this->price, 2) : null;
+//    }
+
     public function getPrice(): ?float
     {
-        return $this->price !== null ? number_format($this->price, 2) : null;
+        return $this->price;
     }
 
     public function setPrice(float $price): self
