@@ -129,7 +129,7 @@ class Sale
      */
     public function getPrice(): ?float
     {
-        return $this->price !== null ? number_format($this->price, 2) : null;
+        return $this->price;
     }
 
     /**
