@@ -50,8 +50,8 @@ class SaleService
         $this->entityManager->flush();
 
         // Update stock quantity after the sale has been persisted
-        $sale->getStock()->addSale($sale);
-        $this->entityManager->flush();
+//        $sale->getStock()->addSale($sale);
+//        $this->entityManager->flush();
 
 //        // Check if the sale price is greater than 1000
 //        if ($sale->getPrice() > 1000.00) {
