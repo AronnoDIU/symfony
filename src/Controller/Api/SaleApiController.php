@@ -7,6 +7,8 @@ namespace App\Controller\Api;
 use App\Entity\Sale;
 use App\Repository\SaleRepository;
 use App\Repository\StockRepository;
+use App\Service\SaleService;
+use Exception;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\DeserializationContext;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,24 +28,22 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class SaleApiController extends AbstractController
 {
-    private MailerInterface $mailer;
+    private SaleService $saleService;
     private EntityManagerInterface $entityManager;
     private SerializerInterface $serializer;
     private ValidatorInterface $validator;
-    private StockRepository $stockRepository;
 
     public function __construct(
-        MailerInterface        $mailer,
+        SaleService            $saleService,
         EntityManagerInterface $entityManager,
         SerializerInterface    $serializer,
-        ValidatorInterface     $validator,
-        StockRepository        $stockRepository)
+        ValidatorInterface     $validator
+    )
     {
-        $this->mailer = $mailer;
+        $this->saleService = $saleService;
         $this->entityManager = $entityManager;
         $this->serializer = $serializer;
         $this->validator = $validator;
-        $this->stockRepository = $stockRepository;
     }
 
     /**
@@ -84,50 +84,24 @@ class SaleApiController extends AbstractController
 
     /**
      * @Route("/create", methods={"POST"})
-     * @throws TransportExceptionInterface
+     * @throws Exception
      */
     public function create(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $sale = $this->serializer->deserialize($request->getContent(), Sale::class, 'json');
 
-        // Validate the sale
-        $errors = $this->validator->validate($sale);
+        $result = $this->saleService->createSale($sale);
 
-        if (count($errors) > 0) {
-            return new JsonResponse(['error' => (string)$errors], JsonResponse::HTTP_BAD_REQUEST);
-        }
-
-        // Persist associated entities explicitly
-        $this->entityManager->persist($sale->getProduct());
-        $this->entityManager->persist($sale->getLocation());
-
-        // Persist the sale
-        $this->entityManager->persist($sale);
-        $this->entityManager->flush();
-
-        // Update stock quantity after the sale has been persisted
-        $sale->getStock()->addSale($sale);
-        $this->entityManager->flush();
-
-        // Check if the sale price is greater than 1000
-        if ($sale->getPrice() > 1000.00) {
-            // Email the customer
-            $customerEmail = $sale->getCustomer()->getEmail();
-            $email = (new Email())
-                ->from('admin@dev.symfony.com')
-                ->to($customerEmail)
-                ->subject('Sale Notification')
-                ->html($this->renderView('emails/email.html.twig', ['customerName' => $sale->getCustomer()->getName()]));
-
-            $this->mailer->send($email);
+        if (isset($result['error'])) {
+            return new JsonResponse(['error' => $result['error']], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // Create a SerializationContext
         $context = SerializationContext::create()->setGroups(['sale:read']);
 
         // Serialize using the context
-        $responseData = $this->serializer->serialize($sale, 'json', $context);
+        $responseData = $this->serializer->serialize($result['sale'], 'json', $context);
 
         return new JsonResponse($responseData, JsonResponse::HTTP_CREATED, [], true);
     }
@@ -174,22 +148,16 @@ class SaleApiController extends AbstractController
     /**
      * @Route("/approve/{id}", methods={"POST"})
      * @ParamConverter("sale", class="App\Entity\Sale")
+     * @throws Exception
      */
     public function approve(Sale $sale): JsonResponse
     {
-        // Check if the sale is already approved
-        if ($sale->getStatus() === 'Approve') {
-            return new JsonResponse(['message' => 'Sale is already approved.'], JsonResponse::HTTP_OK);
+        $result = $this->saleService->approveSale($sale);
+
+        if (isset($result['error'])) {
+            return new JsonResponse(['error' => $result['error']], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        // Set the status to 'Approve'
-        $sale->setStatus('Approve');
-        $this->entityManager->flush();
-
-        // Update stock quantity after the sale status has been changed to 'Approve'
-        $sale->getStock()->addSale($sale);
-        $this->entityManager->flush();
-
-        return new JsonResponse(['message' => 'Sale approved and added to Stock.'], JsonResponse::HTTP_OK);
+        return new JsonResponse(['message' => $result['message']], JsonResponse::HTTP_OK);
     }
 }
