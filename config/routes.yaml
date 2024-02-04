@@ -50,3 +50,7 @@ login:
 logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
+
+approve_sale:
+    path: '/api/sale/approve/{id}'
+    controller: 'App\Controller\Api\SaleController::approve'

@@ -13,6 +13,7 @@
             <th>Product</th>
             <th>Location</th>
             <th>Quantity</th>
+            <th>Price</th>
             <th>Status</th>
             <th>actions</th>
         </tr>
@@ -25,6 +26,7 @@
                 <td>{{ sale.product }}</td>
                 <td>{{ sale.location }}</td>
                 <td>{{ sale.quantity }}</td>
+                <td>{{ sale.price }}</td>
                 <td>{{ sale.status }}</td>
                 <td>
                     <a href="{{ path('app_sale_show', {'id': sale.id}) }}">Show</a>

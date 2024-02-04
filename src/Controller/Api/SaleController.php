@@ -152,6 +152,10 @@ class SaleController extends AbstractController
      */
     public function approve(Sale $sale): JsonResponse
     {
+        if (!$sale) {
+            return new JsonResponse(['error' => 'Sale not found.'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
         $result = $this->saleService->approveSale($sale);
 
         if (isset($result['error'])) {

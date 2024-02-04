@@ -19,9 +19,10 @@ class SaleService
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        ValidatorInterface $validator,
-        EmailService $emailService
-    ) {
+        ValidatorInterface     $validator,
+        EmailService           $emailService
+    )
+    {
         $this->entityManager = $entityManager;
         $this->validator = $validator;
         $this->emailService = $emailService;
@@ -52,11 +53,11 @@ class SaleService
         $sale->getStock()->addSale($sale);
         $this->entityManager->flush();
 
-        // Check if the sale price is greater than 1000
-        if ($sale->getPrice() > 1000.00) {
-            // Email the customer
-            $this->emailService->sendSaleNotificationEmail($sale);
-        }
+//        // Check if the sale price is greater than 1000
+//        if ($sale->getPrice() > 1000.00) {
+//            // Email the customer
+//            $this->emailService->sendSaleNotificationEmail($sale);
+//        }
 
         return ['sale' => $sale];
     }
@@ -78,6 +79,12 @@ class SaleService
         // Update stock quantity after the sale status has been changed to 'Approve'
         $sale->getStock()->addSale($sale);
         $this->entityManager->flush();
+
+        // Check if the sale price is greater than 1000
+        if ($sale->getPrice() > 1000.00) {
+            // Email the customer
+            $this->emailService->sendSaleNotificationEmail($sale);
+        }
 
         return ['message' => 'Sale approved and added to Stock.'];
     }
