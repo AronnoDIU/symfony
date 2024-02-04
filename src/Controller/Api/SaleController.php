@@ -1,6 +1,6 @@
 <?php
 
-// src/Controller/Api/SaleApiController.php
+// src/Controller/Api/SaleController.php
 
 namespace App\Controller\Api;
 
@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * @Route("/api/sale")
  */
-class SaleApiController extends AbstractController
+class SaleController extends AbstractController
 {
     private SaleService $saleService;
     private EntityManagerInterface $entityManager;

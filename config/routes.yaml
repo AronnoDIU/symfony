@@ -6,9 +6,9 @@
 api_login_check:
     path: /api/login_check
 
-# Import routes from SaleApiController
+# Import routes from SaleController
 #sale_api:
-#    resource: '@App/Controller/SaleApiController.php'
+#    resource: '@App/Controller/SaleController.php'
 #    type: annotation
 
 admin:
