@@ -9,6 +9,8 @@ use App\Repository\SaleRepository;
 use App\Repository\StockRepository;
 use App\Service\SaleService;
 use Exception;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\DeserializationContext;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,8 +25,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+///**
+// * @Route("/api/sale")
+// */
+
 /**
- * @Route("/api/sale")
+ * @Rest\Route("/api/sale")
  */
 class SaleController extends AbstractController
 {
@@ -46,8 +52,11 @@ class SaleController extends AbstractController
         $this->validator = $validator;
     }
 
+//    /**
+//     * @Route("/list", methods={"GET"})
+//     */
     /**
-     * @Route("/list", methods={"GET"})
+     * @Rest\Get("/list")
      */
     public function list(SaleRepository $saleRepository): JsonResponse
     {
@@ -68,8 +77,11 @@ class SaleController extends AbstractController
     }
 
 
+//    /**
+//     * @Route("/show/{id}", methods={"GET"})
+//     */
     /**
-     * @Route("/show/{id}", methods={"GET"})
+     * @Rest\Get("/show/{id}")
      */
     public function show(Sale $sale): JsonResponse
     {
@@ -82,8 +94,12 @@ class SaleController extends AbstractController
         return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
     }
 
+//    /**
+//     * @Route("/create", methods={"POST"})
+//     * @throws Exception
+//     */
     /**
-     * @Route("/create", methods={"POST"})
+     * @Rest\Post("/create")
      * @throws Exception
      */
     public function create(Request $request): JsonResponse
@@ -106,8 +122,11 @@ class SaleController extends AbstractController
         return new JsonResponse($responseData, JsonResponse::HTTP_CREATED, [], true);
     }
 
+//    /**
+//     * @Route("/update/{id}", methods={"PUT"})
+//     */
     /**
-     * @Route("/update/{id}", methods={"PUT"})
+     * @Rest\Put("/update/{id}")
      */
     public function update(Sale $sale, Request $request): JsonResponse
     {
@@ -134,8 +153,11 @@ class SaleController extends AbstractController
         return new JsonResponse($responseData, JsonResponse::HTTP_OK, [], true);
     }
 
+//    /**
+//     * @Route("/delete/{id}", methods={"DELETE"})
+//     */
     /**
-     * @Route("/delete/{id}", methods={"DELETE"})
+     * @Rest\Delete("/delete/{id}")
      */
     public function delete(Sale $sale): JsonResponse
     {
@@ -145,8 +167,13 @@ class SaleController extends AbstractController
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
 
+//    /**
+//     * @Route("/approve/{id}", methods={"POST"})
+//     * @ParamConverter("sale", class="App\Entity\Sale")
+//     * @throws Exception
+//     */
     /**
-     * @Route("/approve/{id}", methods={"POST"})
+     * @Rest\Post("/approve/{id}")
      * @ParamConverter("sale", class="App\Entity\Sale")
      * @throws Exception
      */

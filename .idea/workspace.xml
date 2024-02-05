@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/fos_rest.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/fos_rest.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Api/SaleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Api/SaleController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +114,7 @@
       <workItem from="1706753442438" duration="13844000" />
       <workItem from="1706779039213" duration="6898000" />
       <workItem from="1707014153762" duration="24081000" />
-      <workItem from="1707099967011" duration="432000" />
+      <workItem from="1707099967011" duration="4703000" />
     </task>
     <servers />
   </component>
