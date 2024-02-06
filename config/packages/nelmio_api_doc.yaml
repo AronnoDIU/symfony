@@ -1,10 +1,12 @@
 nelmio_api_doc:
+    models: { use_jms: false }
     use_validation_groups: true
     documentation:
         info:
             title: Symfony Rest API Documentation
             description: This is an API documentation for Symfony Rest API
             version: 1.0.0
+
         components:
             securitySchemes:
                 Bearer:
@@ -18,6 +20,4 @@ nelmio_api_doc:
                 - Bearer: [ "ROLE_USER" ]
     areas: # to filter documented areas
         path_patterns:
-            - ^/admin(?!/doc$) # Accepts routes under /api except /api/doc
-        host_patterns: # document only routes with a host of the form api.*
-            - ^admin\.
+            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

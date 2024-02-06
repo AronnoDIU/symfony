@@ -48,7 +48,6 @@ class SaleController extends AbstractController
     }
 
     /**
-     * @Rest\Get("/list")
      * @OA\Get(
      *       path="/api/sale/list",
      *       summary="Get a list of Sales",
@@ -92,7 +91,6 @@ class SaleController extends AbstractController
     }
 
     /**
-     * @Rest\Get("/show/{id}")
      *
      * @OA\Get(
      *       path="/show/{id}",
@@ -134,7 +132,6 @@ class SaleController extends AbstractController
     }
 
     /**
-     * @Rest\Post("/create")
      * @OA\Post(
      *       path="/create",
      *       summary="Create a Sale",
@@ -182,7 +179,6 @@ class SaleController extends AbstractController
     }
 
     /**
-     * @Rest\Put("/update/{id}")
      * @OA\Put(
      *       path="/update/{id}",
      *       summary="Update a Sale",
@@ -241,7 +237,6 @@ class SaleController extends AbstractController
     }
 
     /**
-     * @Rest\Delete("/delete/{id}")
      * @OA\Delete(
      *       path="/delete/{id}",
      *       summary="Delete a Sale",
@@ -270,13 +265,7 @@ class SaleController extends AbstractController
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
 
-//    /**
-//     * @Rest\Post("/approve/{id}")
-//     * @ParamConverter("sale", class="App\Entity\Sale")
-//     * @throws Exception
-//     */
     /**
-     * @Rest\Post("/approve/{id}")
      * @OA\Post(
      *       path="/api/sale/approve/{id}",
      *       summary="Approve a Sale",
@@ -296,9 +285,7 @@ class SaleController extends AbstractController
      *           description="Successful operation",
      *           @OA\JsonContent(
      *               type="object",
-     *               properties={
-     *                   "message": {"type": "string"}
-     *               }
+     *               @OA\Property(property="message", type="string")
      *           )
      *       ),
      *       @OA\Response(
@@ -306,9 +293,7 @@ class SaleController extends AbstractController
      *           description="Sale not found",
      *           @OA\JsonContent(
      *               type="object",
-     *               properties={
-     *                   "error": {"type": "string"}
-     *               }
+     *               @OA\Property(property="error", type="string")
      *           )
      *       ),
      *       @OA\Response(
@@ -316,9 +301,7 @@ class SaleController extends AbstractController
      *           description="Bad request",
      *           @OA\JsonContent(
      *               type="object",
-     *               properties={
-     *                   "error": {"type": "string"}
-     *               }
+     *               @OA\Property(property="error", type="string")
      *           )
      *       )
      * )

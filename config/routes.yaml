@@ -98,6 +98,17 @@ app.swagger:
     defaults: { _controller: nelmio_api_doc.controller.swagger }
 
 # config/routes.yaml
+app.swagger_ui_oauth:
+    path: /admin/doc/oauth2-redirect
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui_oauth }
+
+app.api_sales:
+    path: /api/sale
+    methods: GET
+    defaults: { _controller: App\Controller\Api\SaleController::list }
+
+# config/routes.yaml
 #api:
 #    resource: ../../src/Controller/Api/
 #    type: annotation
