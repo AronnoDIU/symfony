@@ -26,6 +26,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @Rest\Route("/api/sale")
+ * @OA\Tag(name="Sale")
  */
 class SaleController extends AbstractController
 {
@@ -53,7 +54,7 @@ class SaleController extends AbstractController
      *       summary="Get a list of Sales",
      *       description="Returns a list of Sales",
      *       operationId="getList",
-     *       tags={"rewards"},
+     *       tags={"Sale"},
      *       security={{"Bearer": {}}},
      *       @OA\Response(
      *           response=200,
@@ -97,7 +98,7 @@ class SaleController extends AbstractController
      *       summary="Get a Sale by ID",
      *       description="Returns a Sale by its ID",
      *       operationId="getSaleById",
-     *       tags={"rewards"},
+     *       tags={"Sale"},
      *       security={{"Bearer": {}}},
      *       @OA\Parameter(
      *           name="id",
@@ -137,7 +138,7 @@ class SaleController extends AbstractController
      *       summary="Create a Sale",
      *       description="Create a new Sale",
      *       operationId="createSale",
-     *       tags={"rewards"},
+     *       tags={"Sale"},
      *       security={{"Bearer": {}}},
      *       @OA\RequestBody(
      *           required=true,
@@ -184,7 +185,7 @@ class SaleController extends AbstractController
      *       summary="Update a Sale",
      *       description="Update an existing Sale",
      *       operationId="updateSale",
-     *       tags={"rewards"},
+     *       tags={"Sale"},
      *       security={{"Bearer": {}}},
      *       @OA\Parameter(
      *           name="id",
@@ -242,7 +243,7 @@ class SaleController extends AbstractController
      *       summary="Delete a Sale",
      *       description="Delete a Sale by its ID",
      *       operationId="deleteSale",
-     *       tags={"rewards"},
+     *       tags={"Sale"},
      *       security={{"Bearer": {}}},
      *       @OA\Parameter(
      *           name="id",
@@ -271,7 +272,7 @@ class SaleController extends AbstractController
      *       summary="Approve a Sale",
      *       description="Approves a sale by ID",
      *       operationId="approveSale",
-     *       tags={"rewards"},
+     *       tags={"Sale"},
      *       security={{"Bearer": {}}},
      *       @OA\Parameter(
      *           name="id",
@@ -305,6 +306,7 @@ class SaleController extends AbstractController
      *           )
      *       )
      * )
+     * @throws Exception
      */
     public function approve(Sale $sale): JsonResponse
     {
