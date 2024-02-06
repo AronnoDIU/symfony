@@ -17,17 +17,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
-///**
-// * @Route("/api/sale")
-// */
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
 
 /**
  * @Rest\Route("/api/sale")
@@ -52,11 +47,31 @@ class SaleController extends AbstractController
         $this->validator = $validator;
     }
 
-//    /**
-//     * @Route("/list", methods={"GET"})
-//     */
     /**
      * @Rest\Get("/list")
+     * @OA\Get(
+     *       path="/api/sale/list",
+     *       summary="Get a list of Sales",
+     *       description="Returns a list of Sales",
+     *       operationId="getList",
+     *       tags={"rewards"},
+     *       security={{"Bearer": {}}},
+     *       @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref=@Model(type=Sale::class, groups={"full"}))
+     *           )
+     *       ),
+     *       @OA\Parameter(
+     *           name="order",
+     *           in="query",
+     *           description="The field used to order sales",
+     *           required=false,
+     *           @OA\Schema(type="string")
+     *       )
+     *  )
      */
     public function list(SaleRepository $saleRepository): JsonResponse
     {
@@ -76,12 +91,36 @@ class SaleController extends AbstractController
         return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
     }
 
-
-//    /**
-//     * @Route("/show/{id}", methods={"GET"})
-//     */
     /**
      * @Rest\Get("/show/{id}")
+     *
+     * @OA\Get(
+     *       path="/show/{id}",
+     *       summary="Get a Sale by ID",
+     *       description="Returns a Sale by its ID",
+     *       operationId="getSaleById",
+     *       tags={"rewards"},
+     *       security={{"Bearer": {}}},
+     *       @OA\Parameter(
+     *           name="id",
+     *           in="path",
+     *           description="ID of the sale to return",
+     *           required=true,
+     *           @OA\Schema(type="integer")
+     *       ),
+     *       @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref=@Model(type=Sale::class, groups={"sale:read"}))
+     *       ),
+     *       @OA\Response(
+     *           response=404,
+     *           description="Sale not found",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="error", type="string", example="Sale not found.")
+     *           )
+     *       )
+     *  )
      */
     public function show(Sale $sale): JsonResponse
     {
@@ -94,12 +133,32 @@ class SaleController extends AbstractController
         return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
     }
 
-//    /**
-//     * @Route("/create", methods={"POST"})
-//     * @throws Exception
-//     */
     /**
      * @Rest\Post("/create")
+     * @OA\Post(
+     *       path="/create",
+     *       summary="Create a Sale",
+     *       description="Create a new Sale",
+     *       operationId="createSale",
+     *       tags={"rewards"},
+     *       security={{"Bearer": {}}},
+     *       @OA\RequestBody(
+     *           required=true,
+     *           @OA\JsonContent(ref="#/components/schemas/Sale")
+     *       ),
+     *       @OA\Response(
+     *           response=201,
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref=@Model(type=Sale::class, groups={"sale:read"}))
+     *       ),
+     *       @OA\Response(
+     *           response=400,
+     *           description="Bad request",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="error", type="string", example="Error message")
+     *           )
+     *       )
+     *  )
      * @throws Exception
      */
     public function create(Request $request): JsonResponse
@@ -122,11 +181,39 @@ class SaleController extends AbstractController
         return new JsonResponse($responseData, JsonResponse::HTTP_CREATED, [], true);
     }
 
-//    /**
-//     * @Route("/update/{id}", methods={"PUT"})
-//     */
     /**
      * @Rest\Put("/update/{id}")
+     * @OA\Put(
+     *       path="/update/{id}",
+     *       summary="Update a Sale",
+     *       description="Update an existing Sale",
+     *       operationId="updateSale",
+     *       tags={"rewards"},
+     *       security={{"Bearer": {}}},
+     *       @OA\Parameter(
+     *           name="id",
+     *           in="path",
+     *           description="ID of the sale to update",
+     *           required=true,
+     *           @OA\Schema(type="integer")
+     *       ),
+     *       @OA\RequestBody(
+     *           required=true,
+     *           @OA\JsonContent(ref="#/components/schemas/Sale")
+     *       ),
+     *       @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref=@Model(type=Sale::class, groups={"sale:read"}))
+     *       ),
+     *       @OA\Response(
+     *           response=400,
+     *           description="Bad request",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="error", type="string", example="Error message")
+     *           )
+     *       )
+     *  )
      */
     public function update(Sale $sale, Request $request): JsonResponse
     {
@@ -153,11 +240,27 @@ class SaleController extends AbstractController
         return new JsonResponse($responseData, JsonResponse::HTTP_OK, [], true);
     }
 
-//    /**
-//     * @Route("/delete/{id}", methods={"DELETE"})
-//     */
     /**
      * @Rest\Delete("/delete/{id}")
+     * @OA\Delete(
+     *       path="/delete/{id}",
+     *       summary="Delete a Sale",
+     *       description="Delete a Sale by its ID",
+     *       operationId="deleteSale",
+     *       tags={"rewards"},
+     *       security={{"Bearer": {}}},
+     *       @OA\Parameter(
+     *           name="id",
+     *           in="path",
+     *           description="ID of the sale to delete",
+     *           required=true,
+     *           @OA\Schema(type="integer")
+     *       ),
+     *       @OA\Response(
+     *           response=204,
+     *           description="No content"
+     *       )
+     *  )
      */
     public function delete(Sale $sale): JsonResponse
     {
@@ -168,14 +271,57 @@ class SaleController extends AbstractController
     }
 
 //    /**
-//     * @Route("/approve/{id}", methods={"POST"})
+//     * @Rest\Post("/approve/{id}")
 //     * @ParamConverter("sale", class="App\Entity\Sale")
 //     * @throws Exception
 //     */
     /**
      * @Rest\Post("/approve/{id}")
-     * @ParamConverter("sale", class="App\Entity\Sale")
-     * @throws Exception
+     * @OA\Post(
+     *       path="/api/sale/approve/{id}",
+     *       summary="Approve a Sale",
+     *       description="Approves a sale by ID",
+     *       operationId="approveSale",
+     *       tags={"rewards"},
+     *       security={{"Bearer": {}}},
+     *       @OA\Parameter(
+     *           name="id",
+     *           in="path",
+     *           description="ID of the Sale to approve",
+     *           required=true,
+     *           @OA\Schema(type="integer")
+     *       ),
+     *       @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               properties={
+     *                   "message": {"type": "string"}
+     *               }
+     *           )
+     *       ),
+     *       @OA\Response(
+     *           response=404,
+     *           description="Sale not found",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               properties={
+     *                   "error": {"type": "string"}
+     *               }
+     *           )
+     *       ),
+     *       @OA\Response(
+     *           response=400,
+     *           description="Bad request",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               properties={
+     *                   "error": {"type": "string"}
+     *               }
+     *           )
+     *       )
+     * )
      */
     public function approve(Sale $sale): JsonResponse
     {

@@ -8,9 +8,15 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Annotations as OA;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @OA\Schema(
+ *     title="Product",
+ *     description="Product entity"
+ * )
  */
 class Product
 {
@@ -19,7 +25,8 @@ class Product
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @JMS\SerializedName("id")
-     * @JMS\Groups({"sale:read"})
+     * @JMS\Groups({"sale:read", "sale:write"})
+     * @OA\Property(property="id", type="integer", description="The unique identifier of the product.")
      */
     private ?int $id;
 
@@ -29,7 +36,8 @@ class Product
      * @Assert\Length(max=255, maxMessage="The name cannot be longer than {{ limit }} characters.")
      * cascade={"persist", "remove"}
      * @JMS\SerializedName("name")
-     * @JMS\Groups({"sale:read"})
+     * @JMS\Groups({"sale:read", "sale:write"})
+     * @OA\Property(property="name", type="string", description="The name of the product.")
      */
     private ?string $name;
 
@@ -37,6 +45,9 @@ class Product
      * @ORM\Column(type="float", precision=10, scale=2)
      * @Assert\NotNull(message="The price cannot be null.")
      * @Assert\GreaterThan(value=0, message="The price must be greater than 0.")
+     * @JMS\SerializedName("price")
+     * @JMS\Groups({"sale:read"})
+     * @OA\Property(property="price", type="number", description="The price of the product.")
      */
     private ?float $price = 0.0;
 
@@ -62,16 +73,6 @@ class Product
 
         return $this;
     }
-
-//    /**
-//     * @JMS\VirtualProperty
-//     * @JMS\SerializedName("price")
-//     * @JMS\Groups({"sale:read"})
-//     */
-//    public function getPrice(): ?float
-//    {
-//        return $this->price !== null ? number_format($this->price, 2) : null;
-//    }
 
     public function getPrice(): ?float
     {

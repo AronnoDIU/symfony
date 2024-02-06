@@ -1,9 +1,23 @@
 nelmio_api_doc:
+    use_validation_groups: true
     documentation:
         info:
-            title: My App
-            description: This is an awesome app!
+            title: Symfony Rest API Documentation
+            description: This is an API documentation for Symfony Rest API
             version: 1.0.0
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+            security:
+                - Bearer: [ "IS_AUTHENTICATED_ANONYMOUSLY" ]
+                - Bearer: [ "IS_AUTHENTICATED_FULLY" ]
+                - Bearer: [ "ROLE_ADMIN" ]
+                - Bearer: [ "ROLE_USER" ]
     areas: # to filter documented areas
         path_patterns:
-            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+            - ^/admin(?!/doc$) # Accepts routes under /api except /api/doc
+        host_patterns: # document only routes with a host of the form api.*
+            - ^admin\.
