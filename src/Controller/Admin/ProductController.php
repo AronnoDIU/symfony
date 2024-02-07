@@ -7,10 +7,19 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+//use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\HttpFoundation\Response;
+//use Symfony\Component\HttpFoundation\RedirectResponse;
+//use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @Route("admin/product")
@@ -20,11 +29,43 @@ class ProductController extends AbstractController
     /**
      * @Route("/", name="app_product_index", methods={"GET"})
      */
-    public function index(ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository, Request $request, SessionInterface $session): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        // Get the search query from the session
+        $searchQuery = $session->get('product_search_query', '');
+
+        // Get the search query from the request
+        $newSearchQuery = $request->query->get('search', '');
+
+        // If a new search query is present, update the session
+        if ($newSearchQuery !== '') {
+            $session->set('product_search_query', $newSearchQuery);
+            // Redirect to prevent resubmission on page refresh
+            return new RedirectResponse($this->generateUrl('app_product_index'));
+        }
+
+        // If a search query is present, and it's numeric, attempt to find the product
+        if ($searchQuery !== '' && is_numeric($searchQuery)) {
+            $product = $productRepository->find($searchQuery);
+
+            // If the product is not found, throw a NotFoundHttpException
+            if (!$product instanceof Product) {
+                throw $this->createNotFoundException('Product not found');
+            }
+
+            // Clear the search query session variable
+            $session->remove('product_search_query');
+
+            // Redirect to the show page of the found product
+            return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
+        }
+
+        // Otherwise, retrieve all products
+        $products = $productRepository->findAll();
+
+        // Render index template with products
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $products,
         ]);
     }
 
@@ -90,4 +131,11 @@ class ProductController extends AbstractController
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // Clear search query from session and redirect to index
+//    public function clearSearchQuery(SessionInterface $session): Response
+//    {
+//        $session->remove('product_search_query');
+//        return $this->redirectToRoute('app_product_index');
+//    }
 }
