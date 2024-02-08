@@ -1,12 +1,13 @@
 <?php
 
-// src/Controller/UserController.php
+// src/Controller/Admin/UserController.php
 
 namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,26 +38,38 @@ class UserController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-//        $user = new User();
-        $adminUser = new User();
-        $adminUser->setRoles(['ROLE_ADMIN', 'ROLE_USER']);
-
-        $regularUser = new User();
-        $regularUser->setRoles(['ROLE_USER']);
-
-        $form = $this->createForm(UserType::class, $adminUser);
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $profilePictureFile = $form->get('profilePictureFile')->getData();
+
+            if ($profilePictureFile) {
+                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$profilePictureFile->guessExtension();
+
+                try {
+                    $profilePictureFile->move(
+                        $this->getParameter('profile_picture_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Error uploading profile picture.');
+                }
+
+                $user->setProfilePicture($newFilename);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($adminUser);
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/new.html.twig', [
-            'user' => $adminUser,
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
@@ -72,7 +85,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'User updated successfully.');
 
             return $this->redirectToRoute('user_index');
         }
@@ -99,7 +116,6 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_index');
     }
 
-
     /**
      * @Route("/users/{id}", name="user_show", methods={"GET"})
      */
@@ -111,14 +127,16 @@ class UserController extends AbstractController
         if ($this->isGranted('ROLE_ADMIN')) {
             return $this->render('user/show.html.twig', [
                 'user' => $user,
-                'roles' => $user->getRoles(),]);
+                'roles' => $user->getRoles(),
+            ]);
         }
 
         // Check if the user has the ROLE_USER role
         if ($this->isGranted('ROLE_USER')) {
             return $this->render('user/show.html.twig', [
                 'user' => $user,
-                'roles' => $user->getRoles(),]);
+                'roles' => $user->getRoles(),
+            ]);
         }
 
         // If the user does not have any of the roles, return an error message
@@ -126,32 +144,4 @@ class UserController extends AbstractController
             'message' => 'You do not have permission to access this page.',
         ]);
     }
-
-//    /**
-//     * @Route("/admin/users/{id}", name="user_show", methods={"GET"})
-//     */
-//    public function show(User $user): Response
-//    {
-//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-//
-//        return $this->render('user/show.html.twig', [
-//            'user' => $user,
-//            'roles' => $user->getRoles(),
-//            'is_admin' => $this->isGranted('ROLE_ADMIN'),
-//            'is_user' => $this->isGranted('ROLE_USER'),
-//            'is_super_admin' => $this->isGranted('ROLE_SUPER_ADMIN'),
-//            'is_guest' => $this->isGranted('ROLE_GUEST'),
-//            'is_anonymous' => $this->isGranted('ROLE_ANONYMOUS'),
-//            'is_authenticated' => $this->isGranted('IS_AUTHENTICATED'),
-//            'is_authenticated_remember_me' => $this->isGranted('IS_AUTHENTICATED_REMEMBER_ME'),
-//            'is_authenticated_anonymous' => $this->isGranted('IS_AUTHENTICATED_ANONYMOUS'),
-//            'is_authenticated_simple' => $this->isGranted('IS_AUTHENTICATED_SIMPLE'),
-//            'is_granted' => $this->isGranted('ROLE_ADMIN'),
-//            'is_granted2' => $this->isGranted('ROLE_USER'),
-//        ]);
-//
-//        //return $this->render('user/show.html.twig', ['user' => $user]);
-//
-//        //return new Response($user->getRoles());
-//    }
 }

@@ -5,14 +5,18 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @method string getUserIdentifier()
+ * @Vich\Uploadable
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -47,6 +51,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="json")
      */
     private array $roles = [];
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $profilePicture;
+
+    /**
+     * @Assert\Image(mimeTypes={"image/jpeg", "image/png"})
+     */
+    private ?File $profilePictureFile;
+    private DateTime $updatedAt;
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(?string $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
+    public function getProfilePictureFile(): ?File
+    {
+        return $this->profilePictureFile;
+    }
+
+    public function setProfilePictureFile(?File $profilePictureFile): self
+    {
+        $this->profilePictureFile = $profilePictureFile;
+
+        if ($profilePictureFile) {
+            $this->updatedAt = new DateTime('now');
+        }
+
+        return $this;
+    }
+
 
     public function getId(): ?int
     {
