@@ -15,7 +15,11 @@ services:
         tags:
             - { name: messenger.message_handler }
 
-#        App\EventSubscriber\PurchaseEventSubscriber:
+    App\Security\Voter\AccessVoter:
+        tags: [ 'security.voter' ]
+
+
+    #        App\EventSubscriber\PurchaseEventSubscriber:
 #            arguments:
 #                $entityManager: '@doctrine.orm.entity_manager'
 #            tags:

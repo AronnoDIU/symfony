@@ -20,7 +20,7 @@ class DashboardController extends AbstractController
      */
     public function index(): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('READ', null, 'Access Denied');
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'DashboardController',
         ]);
