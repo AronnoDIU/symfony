@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class UserType extends AbstractType
 {
@@ -19,9 +20,10 @@ class UserType extends AbstractType
             ->add('username')
             ->add('password')
             ->add('email')
-            ->add('profilePictureFile', FileType::class, [
-                'label' => 'Profile Picture(JPG or PNG file)',
-                'required' => false,
+            ->add('profilePicture', FileType::class, [
+                'label' => 'Profile Picture (JPG or PNG)',
+                'mapped' => false,
+                'required' => true,
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => 'Roles',
@@ -40,6 +42,8 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            // Optional: enable CSRF protection for your form
+            'csrf_protection' => true,
         ]);
     }
 }

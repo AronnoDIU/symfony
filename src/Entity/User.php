@@ -57,11 +57,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private ?string $profilePicture;
 
-    /**
-     * @Assert\Image(mimeTypes={"image/jpeg", "image/png"})
-     */
-    private ?File $profilePictureFile;
-    private DateTime $updatedAt;
+//    /**
+//     * @Vich\UploadableField(mapping="profile_pictures", fileNameProperty="profilePicture")
+//     */
+//    private ?File $profilePictureFile;
+
+//    private DateTime $updatedAt;
 
     public function getProfilePicture(): ?string
     {
@@ -75,21 +76,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProfilePictureFile(): ?File
-    {
-        return $this->profilePictureFile;
-    }
-
-    public function setProfilePictureFile(?File $profilePictureFile): self
-    {
-        $this->profilePictureFile = $profilePictureFile;
-
-        if ($profilePictureFile) {
-            $this->updatedAt = new DateTime('now');
-        }
-
-        return $this;
-    }
+//    public function getProfilePictureFile(): ?File
+//    {
+//        return $this->profilePictureFile;
+//    }
+//
+//    public function setProfilePictureFile(?File $profilePictureFile): self
+//    {
+//        $this->profilePictureFile = $profilePictureFile;
+//
+//        if ($profilePictureFile) {
+//            $this->updatedAt = new DateTime('now');
+//        }
+//
+//        return $this;
+//    }
 
 
     public function getId(): ?int

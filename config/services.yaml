@@ -12,6 +12,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+#    parameters:
+#        profile_picture_uploaded_directory: '%kernel.project_dir%/public/uploads/profile_pictures'
+
     App\MessageHandler\PurchaseApprovedMessageHandler:
         tags:
             - { name: messenger.message_handler }

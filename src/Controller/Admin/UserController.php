@@ -6,8 +6,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\UserType;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,29 +35,32 @@ class UserController extends AbstractController
 
     /**
      * @Route("/users/new", name="user_new", methods={"GET","POST"})
+     * @throws Exception
      */
     public function new(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $profilePictureFile = $form->get('profilePictureFile')->getData();
+            /** @var UploadedFile $profilePicture */
 
-            if ($profilePictureFile) {
-                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename.'-'.uniqid().'.'.$profilePictureFile->guessExtension();
+            $profilePicture = $form->get('profilePicture')->getData();
+
+            if ($profilePicture) {
+                $originalFilename = pathinfo($profilePicture->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$profilePicture->guessExtension();
 
                 try {
-                    $profilePictureFile->move(
+                    $profilePicture->move(
                         $this->getParameter('profile_picture_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    $this->addFlash('error', 'Error uploading profile picture.');
+                    throw new Exception('Error uploading profile picture.');
+//                    $this->addFlash('error', 'Error uploading profile picture.');
                 }
 
                 $user->setProfilePicture($newFilename);
