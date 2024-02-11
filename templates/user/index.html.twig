@@ -11,6 +11,7 @@
         <thead>
         <tr>
             <th>ID</th>
+            <th>Profile Picture</th>
             <th>Username</th>
             <th>Email</th>
             <th>Roles</th>
@@ -21,6 +22,13 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
+                <td>
+                    {% if user.profilePicture %}
+                        <img src="{{ asset(user.profilePicture) }}" alt="Profile Picture" width="50">
+                    {% else %}
+                        No Picture
+                    {% endif %}
+                </td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles|join(', ') }}</td>
@@ -35,6 +43,5 @@
     </table>
 
     <a href="{{ path('user_new') }}" class="btn btn-success">Create new user</a>
-    {# Add link to redirect to the home page #}
     <a href="{{ path('admin') }}">Go to Admin Home</a>
 {% endblock %}
