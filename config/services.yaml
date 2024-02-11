@@ -12,6 +12,24 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    admin.unit:
+        class: App\Admin2\UnitAdmin
+        tags:
+            - { name: sonata.admin2, model_class: App\Entity\Unit, manager_type: orm, label: Unit }
+
+#    App\Admin2\UnitAdmin:
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Unit" }
+#        arguments:
+#            - ~
+#            - App\Entity\Unit
+#            - ~
+
+#    admin2.unit:
+#        class: App\Admin2\UnitAdmin
+#        tags:
+#            - { name: 'sonata.admin', model_class: 'App\Entity\Units', manager_type: 'orm', label: 'Unit' }
+
 #    parameters:
 #        profile_picture_uploaded_directory: '%kernel.project_dir%/public/uploads/profile_pictures'
 
