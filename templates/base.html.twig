@@ -17,10 +17,22 @@
     {% block javascripts %}
 {#        {{ encore_entry_script_tags('app') }}#}
     {% endblock %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/admin.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/adminlte.css') }}">
+        {# Add any other stylesheets #}
+    {% endblock %}
 </head>
 <body>
 {# Add link to redirect to the home page #}
 <a href="{{ path('admin') }}">Go to Admin Home</a>
 {% block body %}{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/sonataadmin/admin.js') }}"></script>
+    {# Add any other JavaScript files #}
+{% endblock %}
 </body>
 </html>

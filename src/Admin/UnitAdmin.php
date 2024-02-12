@@ -1,41 +1,41 @@
 <?php
 
-// src/Admin2/UnitAdmin.php
+// src/Admin/UnitAdmin.php
 
-namespace App\Admin2;
+namespace App\Admin;
 
+use App\Entity\Unit;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use App\Entity\Unit;
 
 class UnitAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper): void
     {
-        $formMapper
-            ->add('name');
+        $formMapper->add('name', TextType::class);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
-        $datagridMapper
-            ->add('name');
+        $datagridMapper->add('name');
     }
 
     protected function configureListFields(ListMapper $listMapper): void
     {
-        $listMapper
-            ->addIdentifier('name');
+        $listMapper->addIdentifier('name');
     }
 
-    public function toString($object): string
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
-        return $object instanceof Unit
-            ? $object->getName()
-            : 'Unit';
+        $showMapper->add('name');
     }
+
+//    public function toString($object): string
+//    {
+//        return $object instanceof Unit ? $object->getName() : 'Unit';
+//    }
 }
