@@ -5,6 +5,8 @@
 namespace App\Controller\Api;
 
 use App\Entity\Sale;
+use App\Entity\Sale\Product;
+use App\Entity\Sale\Product as SaleProduct;
 use App\Repository\SaleRepository;
 use App\Repository\StockRepository;
 use App\Service\SaleService;
@@ -161,9 +163,19 @@ class SaleController extends AbstractController
      */
     public function create(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        // Deserialize the request data into Sale object
         $sale = $this->serializer->deserialize($request->getContent(), Sale::class, 'json');
 
+        // Deserialize the products data into Product objects
+        $productsData = json_decode($request->getContent(), true)['products'] ?? [];
+        // Inside the loop where you deserialize products
+        foreach ($productsData as $productData) {
+            // Deserialize products as SaleProduct
+            $product = $this->serializer->deserialize(json_encode($productData), SaleProduct::class, 'json');
+            $sale->addProduct($product);
+        }
+
+        // Call your service method to handle sale creation
         $result = $this->saleService->createSale($sale);
 
         if (isset($result['error'])) {
@@ -173,7 +185,7 @@ class SaleController extends AbstractController
         // Create a SerializationContext
         $context = SerializationContext::create()->setGroups(['sale:read']);
 
-        // Serialize using the context
+        // Serialize the result including products using the context
         $responseData = $this->serializer->serialize($result['sale'], 'json', $context);
 
         return new JsonResponse($responseData, JsonResponse::HTTP_CREATED, [], true);

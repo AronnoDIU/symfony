@@ -10,6 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as JMS;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Entity\Sale\Product as SaleProduct;
 
 /**
  * @ORM\Entity(repositoryClass=SaleRepository::class)
@@ -39,23 +42,12 @@ class Sale
     private Customer $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\Product", mappedBy="sale", cascade={"persist"})
+     * @ORM\JoinColumn(name="sale_product")
      * @JMS\Groups({"sale:read", "sale:write"})
-     * @JMS\MaxDepth(1)
-     * @OA\Property(property="product", ref=@Model(type=Product::class), description="The product associated with the sale.")
+     * @OA\Property(property="products", ref=@Model(type=SaleProduct::class), description="The products associated with the sale.")
      */
-    private Product $product;
-
-    /**
-     * @ORM\Column(type="float", precision=10, scale=2)
-     * @Assert\GreaterThan(value=0, message="The price must be greater than 0.")
-     * @Assert\NotBlank(message="Please enter a price.")
-     * @JMS\SerializedName("price")
-     * @JMS\Groups({"sale:read", "sale:write"})
-     * @OA\Property(property="price", type="number", description="The price of the sale.")
-     */
-    private ?float $price = 0.0;
+    private Collection $products;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location", cascade={"persist"})
@@ -66,15 +58,6 @@ class Sale
      * @OA\Property(property="location", ref=@Model(type=Location::class), description="The location associated with the sale.")
      */
     private Location $location;
-
-    /**
-     * @ORM\Column(type="integer")
-     * @Assert\NotBlank(message="Please enter a quantity.")
-     * @JMS\SerializedName("quantity")
-     * @JMS\Groups({"sale:read", "sale:write"})
-     * @OA\Property(property="quantity", type="integer", description="The quantity of the product sold.")
-     */
-    private int $quantity;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -89,6 +72,42 @@ class Sale
     {
         // Ensure the status property is initialized
         $this->status = 'Draft';
+
+        // Initialize the product collection
+        $this->products = new ArrayCollection();
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("products")
+     * @JMS\Groups({"sale:read"})
+     * @OA\Property(description="The products associated with the sale.",)
+     * @OA\Property(ref=@Model(type=SaleProduct::class))
+     * @return Collection|SaleProduct[]
+     */
+    public function getProducts(): ?Collection
+    {
+        return $this->products ?? null;
+    }
+
+    public function addProduct(SaleProduct $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setSale($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // Set the owning side to null
+            $product->setSale(null);
+        }
+
+        return $this;
     }
 
     /**
@@ -116,57 +135,61 @@ class Sale
         return $this->customer;
     }
 
-    public function setCustomer(Customer $customer): self
-    {
+    public function setCustomer(?Customer $customer): void {
         $this->customer = $customer;
-
-        return $this;
     }
 
-    /**
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("product")
-     * @JMS\Groups({"sale:read"})
-     * @JMS\MaxDepth(1)
-     * @OA\Property(description="The product associated with the sale.",)
-     * @OA\Property(ref=@Model(type=Product::class))
-     */
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
+//    public function setCustomer(?Customer $customer): self
+//    {
+//        $this->customer = $customer;
+//
+//        return $this;
+//    }
 
-    public function setProduct(Product $product): self
-    {
-        $this->product = $product;
+//    /**
+//     * @JMS\VirtualProperty
+//     * @JMS\SerializedName("product")
+//     * @JMS\Groups({"sale:read"})
+//     * @JMS\MaxDepth(1)
+//     * @OA\Property(description="The product associated with the sale.",)
+//     * @OA\Property(ref=@Model(type=Product::class))
+//     */
+//    public function getProduct(): ?Product
+//    {
+//        return $this->product;
+//    }
 
-        return $this;
-    }
+//    public function setProduct(Product $product): self
+//    {
+//        $this->product = $product;
+//
+//        return $this;
+//    }
 
-    /**
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("price")
-     * @JMS\Groups({"sale:read", "sale:write"})
-     * @OA\Property(description="The price of the sale.",)
-     * @OA\Property(type="number")
-     */
-    public function getPrice(): ?float
-    {
-        return $this->price;
-    }
+//    /**
+//     * @JMS\VirtualProperty
+//     * @JMS\SerializedName("price")
+//     * @JMS\Groups({"sale:read", "sale:write"})
+//     * @OA\Property(description="The price of the sale.",)
+//     * @OA\Property(type="number")
+//     */
+//    public function getPrice(): ?float
+//    {
+//        return $this->price;
+//    }
 
-    /**
-     * Set the price of the sale.
-     *
-     * @param float|null $price
-     * @return $this
-     */
-    public function setPrice(?float $price): self
-    {
-        $this->price = $price;
-
-        return $this;
-    }
+//    /**
+//     * Set the price of the sale.
+//     *
+//     * @param float|null $price
+//     * @return $this
+//     */
+//    public function setPrice(?float $price): self
+//    {
+//        $this->price = $price;
+//
+//        return $this;
+//    }
 
 
     /**
@@ -189,24 +212,24 @@ class Sale
         return $this;
     }
 
-    /**
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("quantity")
-     * @JMS\Groups({"sale:read", "sale:write"})
-     * @OA\Property(description="The quantity of the product sold.",)
-     * @OA\Property(type="integer")
-     */
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
+//    /**
+//     * @JMS\VirtualProperty
+//     * @JMS\SerializedName("quantity")
+//     * @JMS\Groups({"sale:read", "sale:write"})
+//     * @OA\Property(description="The quantity of the product sold.",)
+//     * @OA\Property(type="integer")
+//     */
+//    public function getQuantity(): ?int
+//    {
+//        return $this->quantity;
+//    }
 
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
+//    public function setQuantity(int $quantity): self
+//    {
+//        $this->quantity = $quantity;
+//
+//        return $this;
+//    }
 
     /**
      * @JMS\VirtualProperty
