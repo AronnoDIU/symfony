@@ -4,13 +4,13 @@
 
 namespace App\Controller\Api;
 
+use Exception;
 use App\Entity\Sale;
 use App\Entity\Sale\Product;
 use App\Entity\Sale\Product as SaleProduct;
 use App\Repository\SaleRepository;
 use App\Repository\StockRepository;
 use App\Service\SaleService;
-use Exception;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\SerializationContext;
@@ -77,21 +77,71 @@ class SaleController extends AbstractController
      */
     public function list(SaleRepository $saleRepository): JsonResponse
     {
+        // Retrieve all sales with their associated products
         $sales = $saleRepository->findAll();
 
-        // Debugging: Output the state of related entities
-        foreach ($sales as $sale) {
-            dump($sale->getProduct(), $sale->getLocation());
-        }
-
-        // Create a SerializationContext
+        // Create a SerializationContext to specify serialization groups
         $context = SerializationContext::create()->setGroups(['sale:read']);
 
-        // Serialize using the context
-        $data = $this->serializer->serialize($sales, 'json', $context);
+        // Serialize the sales data using the configured context
+        $responseData = $this->serializer->serialize($sales, 'json', $context);
 
-        return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
+        // Return the serialized data as a JsonResponse
+        return new JsonResponse($responseData, JsonResponse::HTTP_OK, [], true);
     }
+
+//    public function list(SaleRepository $saleRepository): JsonResponse
+//    {
+//        // Retrieve all sales
+//        $sales = $saleRepository->findAll();
+//
+//        // Create an array to store serialized data
+//        $serializedSales = [];
+//
+//        // Serialize each sale along with its associated products
+//        foreach ($sales as $sale) {
+//            // Serialize the sale entity
+//            $saleData = $this->serializer->serialize($sale, 'json', SerializationContext::create()->setGroups(['full']));
+//
+//            // Retrieve the associated products for this sale
+//            $productsData = [];
+//            foreach ($sale->getProducts() as $product) {
+//                $productsData[] = [
+//                    'id' => $product->getId(),
+//                    'price' => $product->getPrice(),
+//                    'quantity' => $product->getQuantity(),
+//                    // Add other product properties as needed
+//                ];
+//            }
+//
+//            // Merge sale data with products data
+//            $saleData = json_decode($saleData, true);
+//            $saleData['products'] = $productsData;
+//
+//            // Add the merged data to the serialized sales array
+//            $serializedSales[] = $saleData;
+//        }
+//
+//        // Return the serialized sales array as a JSON response
+//        return new JsonResponse($serializedSales, JsonResponse::HTTP_OK);
+//    }
+//    public function list(SaleRepository $saleRepository): JsonResponse
+//    {
+//        $sales = $saleRepository->findAll();
+//
+//        // Debugging: Output the state of related entities
+//        foreach ($sales as $sale) {
+//            dump($sale->getProduct(), $sale->getLocation());
+//        }
+//
+//        // Create a SerializationContext
+//        $context = SerializationContext::create()->setGroups(['sale:read']);
+//
+//        // Serialize using the context
+//        $data = $this->serializer->serialize($sales, 'json', $context);
+//
+//        return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
+//    }
 
     /**
      *

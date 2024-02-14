@@ -83,6 +83,10 @@ class SaleService
             // Flush changes to the database
             $this->entityManager->flush();
 
+            // Update stock quantity after the sale has been persisted
+            $sale->getStock()->addSale($sale);
+            $this->entityManager->flush();
+
             // Optionally, return the persisted Sale entity along with a success message
             return ['sale' => $sale, 'message' => 'Sale created successfully'];
         } catch (Exception $e) {
@@ -118,8 +122,6 @@ class SaleService
         return ['message' => 'Sale approved and added to Stock.'];
     }
 }
-
-
 //        // Update stock quantity after the sale has been persisted
 ////        $sale->getStock()->addSale($sale);
 ////        $this->entityManager->flush();

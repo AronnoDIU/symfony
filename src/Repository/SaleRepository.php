@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Sale;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * @extends ServiceEntityRepository<Sale>
@@ -53,16 +54,41 @@ class SaleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findAll(): array
     {
         return $this->createQueryBuilder('s')
-            ->leftJoin('s.product', 'p')
+            ->leftJoin('s.products', 'p') // Join with the products association
             ->addSelect('p')
-            ->leftJoin('s.location', 'l')
-            ->addSelect('l')
             ->getQuery()
             ->getResult();
     }
+
+//    public function findAll(): array
+//    {
+//        return $this->createQueryBuilder('s')
+//            ->leftJoin('s.product', 'p')
+//            ->addSelect('p')
+//            ->leftJoin('s.location', 'l')
+//            ->addSelect('l')
+//            ->getQuery()
+//            ->getResult();
+//    }
+
+//    public function findAllWithProducts(): array
+//    {
+//        $rsm = new ResultSetMapping();
+//        $rsm->addEntityResult(Sale::class, 's');
+//        $rsm->addFieldResult('s', 'id', 'id');
+//
+//        $query = $this->getEntityManager()->createNativeQuery(
+//            'SELECT s.*, p.* FROM sale s LEFT JOIN sale_product p ON s.id = p.sale_id',
+//            $rsm
+//        );
+//
+//        return $query->getResult();
+//    }
+
 
 //    /**
 //     * @return Sale[] Returns an array of Sale objects

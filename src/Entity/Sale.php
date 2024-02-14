@@ -42,12 +42,19 @@ class Sale
     private Customer $customer;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\Product", mappedBy="sale", cascade={"persist"})
-     * @ORM\JoinColumn(name="sale_product")
+     * @ORM\OneToMany(targetEntity=SaleProduct::class, mappedBy="sale", cascade={"persist"})
      * @JMS\Groups({"sale:read", "sale:write"})
      * @OA\Property(property="products", ref=@Model(type=SaleProduct::class), description="The products associated with the sale.")
      */
     private Collection $products;
+
+//    /**
+//     * @ORM\OneToMany(targetEntity="App\Entity\Sale\Product", mappedBy="sale", cascade={"persist"})
+//     * @ORM\JoinColumn(name="sale_product")
+//     * @JMS\Groups({"sale:read", "sale:write"})
+//     * @OA\Property(property="products", ref=@Model(type=SaleProduct::class), description="The products associated with the sale.")
+//     */
+//    private Collection $products;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location", cascade={"persist"})
@@ -81,14 +88,27 @@ class Sale
      * @JMS\VirtualProperty
      * @JMS\SerializedName("products")
      * @JMS\Groups({"sale:read"})
-     * @OA\Property(description="The products associated with the sale.",)
+     * @OA\Property(description="The products associated with the sale.")
      * @OA\Property(ref=@Model(type=SaleProduct::class))
      * @return Collection|SaleProduct[]
      */
     public function getProducts(): ?Collection
     {
-        return $this->products ?? null;
+        return $this->products ?? new ArrayCollection();
     }
+
+//    /**
+//     * @JMS\VirtualProperty
+//     * @JMS\SerializedName("products")
+//     * @JMS\Groups({"sale:read"})
+//     * @OA\Property(description="The products associated with the sale.",)
+//     * @OA\Property(ref=@Model(type=SaleProduct::class))
+//     * @return Collection|SaleProduct[]
+//     */
+//    public function getProducts(): ?Collection
+//    {
+//        return $this->products ?? null;
+//    }
 
     public function addProduct(SaleProduct $product): self
     {
@@ -158,25 +178,6 @@ class Sale
 
         return $this;
     }
-
-//    /**
-//     * @JMS\VirtualProperty
-//     * @JMS\SerializedName("quantity")
-//     * @JMS\Groups({"sale:read", "sale:write"})
-//     * @OA\Property(description="The quantity of the product sold.",)
-//     * @OA\Property(type="integer")
-//     */
-//    public function getQuantity(): ?int
-//    {
-//        return $this->quantity;
-//    }
-
-//    public function setQuantity(int $quantity): self
-//    {
-//        $this->quantity = $quantity;
-//
-//        return $this;
-//    }
 
     /**
      * @JMS\VirtualProperty

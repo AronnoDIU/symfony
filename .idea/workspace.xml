@@ -8,7 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/Api/SaleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Api/SaleController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Sale.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Sale.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Sale/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Sale/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/SaleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/SaleRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/SaleService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SaleService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/admin/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/index.html.twig" afterDir="false" />
     </list>
@@ -129,7 +129,7 @@
       <workItem from="1707754019144" duration="309000" />
       <workItem from="1707879434001" duration="36000" />
       <workItem from="1707879491672" duration="369000" />
-      <workItem from="1707879875000" duration="7030000" />
+      <workItem from="1707879875000" duration="16807000" />
     </task>
     <servers />
   </component>
