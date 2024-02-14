@@ -168,15 +168,16 @@ class SaleController extends AbstractController
 
         // Deserialize the products data into Product objects
         $productsData = json_decode($request->getContent(), true)['products'] ?? [];
-        // Inside the loop where you deserialize products
+
+        // Loop through each product data and deserialize it into SaleProduct
         foreach ($productsData as $productData) {
             // Deserialize products as SaleProduct
             $product = $this->serializer->deserialize(json_encode($productData), SaleProduct::class, 'json');
             $sale->addProduct($product);
         }
 
-        // Call your service method to handle sale creation
-        $result = $this->saleService->createSale($sale);
+        // Call the service method to handle sale creation
+        $result = $this->saleService->createSale($sale, json_decode($request->getContent(), true));
 
         if (isset($result['error'])) {
             return new JsonResponse(['error' => $result['error']], JsonResponse::HTTP_BAD_REQUEST);

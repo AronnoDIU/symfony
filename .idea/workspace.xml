@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="fb263f6d-9329-455f-998f-b2d6216863b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Api/SaleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Api/SaleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Sale.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Sale.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Sale/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Sale/Product.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/SaleService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SaleService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +59,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.folding&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -123,6 +127,9 @@
       <workItem from="1707706550530" duration="162000" />
       <workItem from="1707706868305" duration="14420000" />
       <workItem from="1707754019144" duration="309000" />
+      <workItem from="1707879434001" duration="36000" />
+      <workItem from="1707879491672" duration="369000" />
+      <workItem from="1707879875000" duration="7030000" />
     </task>
     <servers />
   </component>

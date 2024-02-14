@@ -11,6 +11,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
+use App\Entity\Product as Original;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -31,17 +32,6 @@ class Product
      * @OA\Property(property="id", type="integer", description="The unique identifier of the sale\product.")
      */
     private ?int $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="The name cannot be blank.")
-     * @Assert\Length(max=255, maxMessage="The name cannot be longer than {{ limit }} characters.")
-     *  cascade={"persist", "remove"}
-     * @JMS\SerializedName("name")
-     * @JMS\Groups({"sale:read", "sale:write"})
-     * @OA\Property(property="name", type="string", description="The name of the sale\product.")
-     */
-    private ?string $name;
 
     /**
      * @ORM\Column(type="float", precision=10, scale=2)
@@ -71,23 +61,11 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product")
      */
-    private ?Product $product;
+    private ?Original $original;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getPrice(): ?float
@@ -128,20 +106,19 @@ class Product
 
     /**
      * @JMS\VirtualProperty
-     * @JMS\SerializedName("product")
+     * @JMS\SerializedName("original")
      * @JMS\Groups({"sale:read"})
-     * @JMS\MaxDepth(1)
-     * @OA\Property(description="The product associated with the sale.",)
-     * @OA\Property(ref=@Model(type=Product::class))
+     * @OA\Property(description="The original associated with the sale\product.",)
+     * @OA\Property(ref=@Model(type=Original::class))
      */
-    public function getProduct(): ?Product
+    public function getOriginal(): ?Original
     {
-        return $this->product;
+        return $this->original;
     }
 
-    public function setProduct(Product $product): self
+    public function setOriginal(Original $original): self
     {
-        $this->product = $product;
+        $this->original = $original;
 
         return $this;
     }

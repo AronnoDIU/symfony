@@ -139,59 +139,6 @@ class Sale
         $this->customer = $customer;
     }
 
-//    public function setCustomer(?Customer $customer): self
-//    {
-//        $this->customer = $customer;
-//
-//        return $this;
-//    }
-
-//    /**
-//     * @JMS\VirtualProperty
-//     * @JMS\SerializedName("product")
-//     * @JMS\Groups({"sale:read"})
-//     * @JMS\MaxDepth(1)
-//     * @OA\Property(description="The product associated with the sale.",)
-//     * @OA\Property(ref=@Model(type=Product::class))
-//     */
-//    public function getProduct(): ?Product
-//    {
-//        return $this->product;
-//    }
-
-//    public function setProduct(Product $product): self
-//    {
-//        $this->product = $product;
-//
-//        return $this;
-//    }
-
-//    /**
-//     * @JMS\VirtualProperty
-//     * @JMS\SerializedName("price")
-//     * @JMS\Groups({"sale:read", "sale:write"})
-//     * @OA\Property(description="The price of the sale.",)
-//     * @OA\Property(type="number")
-//     */
-//    public function getPrice(): ?float
-//    {
-//        return $this->price;
-//    }
-
-//    /**
-//     * Set the price of the sale.
-//     *
-//     * @param float|null $price
-//     * @return $this
-//     */
-//    public function setPrice(?float $price): self
-//    {
-//        $this->price = $price;
-//
-//        return $this;
-//    }
-
-
     /**
      * @JMS\VirtualProperty
      * @JMS\SerializedName("location")

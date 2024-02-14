@@ -56,28 +56,23 @@ class SaleService
             $sale = new Sale();
             $sale->setCustomer($customer);
             $sale->setLocation($location);
-
-            // Persist the Sale entity
             $this->entityManager->persist($sale);
-
-            // Persist each associated product individually
-            foreach ($sale->getProducts() as $product) {
-                $this->entityManager->persist($product);
-            }
 
             // Iterate over products and add them to the sale
             foreach ($requestData['products'] as $productData) {
                 // Retrieve product details
+//                $productId = $productData['id'];
+
                 $productId = $productData['original_id'];
                 $productPrice = $productData['price'];
                 $productQuantity = $productData['quantity'];
 
                 // Retrieve product entity
-                $product = $this->entityManager->getRepository(Product::class)->find($productId);
+                $product = $this->entityManager->getRepository(\App\Entity\Product::class)->find($productId);
 
                 // Create a new SaleProduct entity
                 $saleProduct = new SaleProduct();
-                $saleProduct->setProduct($product);
+                $saleProduct->setOriginal($product);
                 $saleProduct->setPrice($productPrice);
                 $saleProduct->setQuantity($productQuantity);
 
@@ -85,66 +80,46 @@ class SaleService
                 $sale->addProduct($saleProduct);
             }
 
-            // Persist the Sale entity
-            $this->entityManager->persist($sale);
+            // Flush changes to the database
             $this->entityManager->flush();
 
-            // Optionally, you may return the persisted Sale entity along with a success message
+            // Optionally, return the persisted Sale entity along with a success message
             return ['sale' => $sale, 'message' => 'Sale created successfully'];
         } catch (Exception $e) {
 //            Throw new Exception($e->getMessage());
             return ['error' => 'Failed to create sale: ' . $e->getMessage()];
         }
     }
+
+    /**
+     * @throws Exception
+     */
+    public function approveSale(Sale $sale, SaleProduct $saleProduct): array
+    {
+        // Check if the sale is already approved
+        if ($sale->getStatus() === 'Approve') {
+            return ['error' => 'Sale is already approved.'];
+        }
+
+        // Set the status to 'Approve'
+        $sale->setStatus('Approve');
+        $this->entityManager->flush();
+
+        // Update stock quantity after the sale status has been changed to 'Approve'
+        $sale->getStock()->addSale($sale);
+        $this->entityManager->flush();
+
+        // Check if the sale price is greater than 1000
+        if ($saleProduct->getPrice() > 1000) {
+            // Email the customer
+            $this->emailService->sendSaleNotificationEmail($sale);
+        }
+
+        return ['message' => 'Sale approved and added to Stock.'];
+    }
 }
 
-//    public function createSale(Sale $sale): array
-//    {
-//        // Validate the sale
-//        $errors = $this->validator->validate($sale);
-//
-//        if (count($errors) > 0) {
-//            return ['error' => (string)$errors];
-//        }
-//
-//        try {
-//            // Persist the Sale entity
-//            $this->entityManager->persist($sale);
-//            $this->entityManager->flush();
-//
-//            // Persist associated entities explicitly
-//            $this->entityManager->persist($sale->getProducts());
-//
-//            // Optionally, you may return the persisted Sale entity along with a success message
-//            return ['sale' => $sale, 'message' => 'Sale created successfully'];
-//        } catch (\Exception $e) {
-//            // Handle any exceptions, log errors, and return an error message
-//            return ['error' => 'Failed to create sale: ' . $e->getMessage()];
-//        }
-//    }
 
-//    public function createSale(Sale $sale): array
-//    {
-//        // Validate the sale
-//        $errors = $this->validator->validate($sale);
-//
-//        if (count($errors) > 0) {
-//            return ['error' => (string)$errors];
-////            return new JsonResponse(['error' => (string)$errors], JsonResponse::HTTP_BAD_REQUEST);
-//        }
-//
-//        // Persist associated entities explicitly
-////        $this->entityManager->persist($sale->getProducts());
-////        $this->entityManager->persist($sale->getLocation());
-//        $this->entityManager->persist($sale->getStock());
-//        $this->entityManager->persist($sale->getLocation());
-//        $this->entityManager->persist($sale->getCustomer());
-//        $this->entityManager->persist($sale->getProducts());
-//
-//        // Persist the sale
-//        $this->entityManager->persist($sale);
-//        $this->entityManager->flush();
-//
 //        // Update stock quantity after the sale has been persisted
 ////        $sale->getStock()->addSale($sale);
 ////        $this->entityManager->flush();
@@ -156,32 +131,5 @@ class SaleService
 ////        }
 //
 //        return ['sale' => $sale];
-//    }
-
-//    /**
-//     * @throws Exception
-//     */
-//    public function approveSale(Sale $sale): array
-//    {
-//        // Check if the sale is already approved
-//        if ($sale->getStatus() === 'Approve') {
-//            return ['error' => 'Sale is already approved.'];
-//        }
-//
-//        // Set the status to 'Approve'
-//        $sale->setStatus('Approve');
-//        $this->entityManager->flush();
-//
-//        // Update stock quantity after the sale status has been changed to 'Approve'
-//        $sale->getStock()->addSale($sale);
-//        $this->entityManager->flush();
-//
-//        // Check if the sale price is greater than 1000
-//        if ($sale->getPrice() > 1000.00) {
-//            // Email the customer
-//            $this->emailService->sendSaleNotificationEmail($sale);
-//        }
-//
-//        return ['message' => 'Sale approved and added to Stock.'];
 //    }
 //}
