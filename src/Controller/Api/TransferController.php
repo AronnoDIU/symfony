@@ -187,8 +187,8 @@ class TransferController extends AbstractFOSRestController
      *     description="Bad request",
      *     @OA\JsonContent(
      *     @OA\Property(property="error", type="string", example="Error message")
-     *  )
-     * )
+     *         )
+     *     )
      * )
      */
     public function update(Transfer $transfer, Request $request): JsonResponse
@@ -276,8 +276,8 @@ class TransferController extends AbstractFOSRestController
      *     description="Bad request",
      *     @OA\JsonContent(
      *     @OA\Property(property="error", type="string", example="Error message")
-     * )
-     * )
+     *         )
+     *     )
      * )
      */
     public function approve(Transfer $transfer): JsonResponse
@@ -317,8 +317,8 @@ class TransferController extends AbstractFOSRestController
      *     description="Bad request",
      *     @OA\JsonContent(
      *     @OA\Property(property="error", type="string", example="Error message")
-     * )
-     * )
+     *       )
+     *    )
      * )
      */
     public function cancel(Transfer $transfer): JsonResponse
