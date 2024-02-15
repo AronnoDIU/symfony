@@ -219,7 +219,7 @@ class SaleController extends AbstractController
         // Deserialize the products data into Product objects
         $productsData = json_decode($request->getContent(), true)['products'] ?? [];
 
-        // Loop through each product data and deserialize it into SaleProduct
+        // Loop through each product data and deserialize it into SaleProduct.TODO: use jms serializer
         foreach ($productsData as $productData) {
             // Deserialize products as SaleProduct
             $product = $this->serializer->deserialize(json_encode($productData), SaleProduct::class, 'json');
@@ -239,6 +239,7 @@ class SaleController extends AbstractController
         // Serialize the result including products using the context
         $responseData = $this->serializer->serialize($result['sale'], 'json', $context);
 
+        // TODO: FOSRestBundle will automatically set the HTTP headers for you.
         return new JsonResponse($responseData, JsonResponse::HTTP_CREATED, [], true);
     }
 
