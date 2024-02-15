@@ -48,14 +48,6 @@ class Sale
      */
     private Collection $products;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\Sale\Product", mappedBy="sale", cascade={"persist"})
-//     * @ORM\JoinColumn(name="sale_product")
-//     * @JMS\Groups({"sale:read", "sale:write"})
-//     * @OA\Property(property="products", ref=@Model(type=SaleProduct::class), description="The products associated with the sale.")
-//     */
-//    private Collection $products;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
