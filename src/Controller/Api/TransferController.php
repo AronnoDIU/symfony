@@ -188,6 +188,8 @@ class TransferController extends AbstractFOSRestController
      *     @OA\JsonContent(
      *     @OA\Property(property="error", type="string", example="Error message")
      *  )
+     * )
+     * )
      */
     public function update(Transfer $transfer, Request $request): JsonResponse
     {
@@ -321,7 +323,6 @@ class TransferController extends AbstractFOSRestController
      */
     public function cancel(Transfer $transfer): JsonResponse
     {
-        // Implementation of cancel action with validation and serialization
         $transfer->setStatus('Cancel');
         $this->entityManager->flush();
 
