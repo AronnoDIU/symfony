@@ -1,6 +1,4 @@
 ###> symfony/framework-bundle ###
-.idea*
-.idea/*
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -10,16 +8,27 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
+###> miscellaneous ###
+/.idea
+/module
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+/tests/PhpStorm/requests/http-client.private.env.json
+/public/uploads/media
+###< miscellaneous ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
-###< lexik/jwt-authentication-bundle ###
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+config/firebase-credentials.json
